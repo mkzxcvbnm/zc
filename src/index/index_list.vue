@@ -15,6 +15,13 @@
                     <p><i class="fa fa-clock-o"></i>{{item.updatetime}}<span>¥ {{item.money}}</span></p>
                 </a></li>
             </template>
+            <div class="weui-loadmore" v-if="project.loading">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line" v-if="project.loading === 0">
+                <span class="weui-loadmore__tips">暂无数据</span>
+            </div>
         </ul>
         <ul class="list center" v-else key="partake">
             <template v-for="item in partake.data">
@@ -24,15 +31,15 @@
                     <p><i class="fa fa-clock-o"></i>{{item.updatetime}}<span>¥ {{item.money}}</span></p>
                 </a></li>
             </template>
+            <div class="weui-loadmore" v-if="partake.loading">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line" v-if="partake.loading === 0">
+                <span class="weui-loadmore__tips">暂无数据</span>
+            </div>
         </ul>
         </transition>
-        <div class="weui-loadmore">
-            <i class="weui-loading"></i>
-            <span class="weui-loadmore__tips">正在加载</span>
-        </div>
-        <div class="weui-loadmore weui-loadmore_line">
-            <span class="weui-loadmore__tips">暂无数据</span>
-        </div>
     </div>
 </template>
 
@@ -45,19 +52,21 @@
         data: function () {
             return {
                 currentView: 'project',
-                project: {
-                    data: {},
-                    params: {
-                        pages: 1,
-                        limit: 5
-                    }
+                project: {//最新项目
+                    data: [],//列表队列
+                    params: {//发送数据
+                        pages: 1,//获取页数
+                        limit: 5,//每页数据长度
+                    },
+                    loading: true//读取状态
                 },
-                partake: {
-                    data: {},
+                partake: {//梦想清单
+                    data: [],
                     params: {
                         pages: 1,
-                        limit: 5
-                    }
+                        limit: 5,
+                    },
+                    loading: true
                 }
             }
         },
@@ -69,12 +78,16 @@
                         params: this[type].params
                     })
                     .then((response) => {
+                        if (!response.data.length) {//没有数据了
+                            this[type].loading = 0;
+                            return;
+                        }
+                        this.$set(this[type], 'loading', false);//准备渲染关闭loading
                         for(let v of response.data){
                             v.updatetime = moment(v.updatetime*1000).format('YYYY/MM/DD');
+                            this[type].data.push(v);//渲染
                         }
-                        this.$set(this[type], 'data', response.data)
-                        this.$set(this[type].params, 'pages', this[type].params.pages+1)
-                        console.log(this[type].params.pages)
+                        this.$set(this[type].params, 'pages', this[type].params.pages + 1);//页数+1
                     })
                     .catch(function(response) {
                         console.log(response)
@@ -83,15 +96,15 @@
                 getlist('project');//最新项目
                 getlist('partake');//梦想清单
 
-                window.addEventListener('scroll', function() {
+                window.addEventListener('scroll', () => {
                     let scrollTop = document.body.scrollTop;
-                    if(scrollTop + window.innerHeight >= document.body.clientHeight) {
-                        loadMore();
+                    if(scrollTop + window.innerHeight >= document.body.clientHeight) {//滚到底部
+                        if (this[this.currentView].loading === false) {//非loading状态
+                            this.$set(this[this.currentView], 'loading', true);//显示loading
+                            getlist(this.currentView)//获取当前激活选项卡对应的数据
+                        }
                     }
                 });
-                function loadMore() {
-                    console.log('加载数据')
-                }
             });
         }
     }
