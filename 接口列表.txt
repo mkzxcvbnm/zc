@@ -1,0 +1,41 @@
+网址:http://qingshang.fankeweb.cn/
+
+首页
+1、获取幻灯片列表
+/index.php/api/index/name/banner
+2、获取项目列表:时间排序 参数：页数pages 每页显示条数limit
+/index.php/api/index/name/Project/pages/1/limit/2
+3、获取最新参与项目列表 参数：页数pages  每页显示条数limit
+/index.php/api/index/name/Partake/pages/1/limit/2
+
+个人中心
+1、获取个人信息
+/index.php/api/index/name/Userinfo
+2、发送手机号获取验证码 参数：tel
+/index.php/api/index/name/Sms/tel/13806103483
+3、发送验证码进行绑定 参数：vcode
+/index.php/api/index/name/Sms/tel/13806103483/vcode/123456
+
+系统信息
+1、获取文章列表，参数：分类cid 页数pages  每页显示条数limit
+/index.php/api/index/name/Article/cid/2/pages/1/limit/5
+2、获取文章详情，参数：文章id
+/index.php/api/index/name/Articleshow/id/1
+
+项目详情
+1、获取项目详情，参数：id 返回结果：当前用户是否已参加过该活动
+/index.php/api/index/name/Projectshow/id/1
+
+提交订单
+1、提交订单，参数：项目id 购买数量 pay_num
+/index.php/api/index/name/Pay/id/1/pay_num/5
+2、提交微信支付，参数：项目id 购买数量 pay_num
+/index.php/api/index/name/Pay/id/1/pay_num/5/pay_type/wx
+
+我要报名
+1、提交信息，创建参与项目数据 参数:项目ID，自定义消息
+/index.php/api/index/name/Partakeadd/id/1/diymess/测试消息
+
+我的众筹
+1、项目列表
+/index.php/api/index/name/Partake/pages/1/limit/2/type/my

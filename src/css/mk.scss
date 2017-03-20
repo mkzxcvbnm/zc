@@ -1,0 +1,5 @@
+$green: #09bb07;
+@mixin flex ($justify-content: flex-start) {
+    display: flex;
+    justify-content: $justify-content;
+}

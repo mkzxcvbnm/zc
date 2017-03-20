@@ -1,0 +1,19 @@
+body {
+    font: 14px/1.14 "\5FAE\8F6F\96C5\9ED1", "arial";
+    background: #f1f1f1;
+    color: #333;
+    padding: .78rem 0 1rem;
+}
+.cover {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cever;
+}
+.contain {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.center {
+    padding: 0 .3rem;
+}
