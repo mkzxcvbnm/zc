@@ -12,7 +12,6 @@
     import footer from '../public/footer.vue';
     import banner from './banner.vue';
     import list from './index_list.vue';
-    require("weui/dist/style/weui.min.css");
 
     export default {
         name: 'index',

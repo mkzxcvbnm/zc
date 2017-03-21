@@ -9,24 +9,26 @@ const router = new VueRouter({
     routes: [
         {
             path:'/',
-            component:function (resolve) {
+            component: resolve => {
                 require(['./main.vue'], resolve);
             },
             children:[
                 {
+                    name: 'index',
                     path:'/',
-                    component:function (resolve) {
+                    component: resolve => {
                         require(['./index/main.vue'], resolve);
                     },
                 },
                 {
-                    path:'*',
-                    component: (resolve) => {
-                        require(['./index/main.vue'], resolve);
-                    }
+                    name: 'detail',
+                    path: '/detail/:id',
+                    component: resolve => {
+                        require(['./detail/main.vue'], resolve);
+                    },
                 },
             ]
-        }
+        },{ path: '*', redirect: '/' }
     ],
     linkActiveClass: 'active'
 });

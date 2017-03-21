@@ -1,7 +1,7 @@
 <template>
     <div class="header">
-        <a v-if="back_show" class="back" href="javascript:;"><i class="fa fa-angle-left"></i></a>
-        <span>青商户外联盟</span>
+        <a v-if="back_show" @click="back" class="back" href="javascript:;"><i class="fa fa-angle-left"></i></a>
+        <span>{{this.tit}}</span>
     </div>
 </template>
 
@@ -9,14 +9,25 @@
     require('font-awesome-webpack');
     export default {
         name: 'header',
+        props: ['title'],
         data: function () {
             return {
                 back_show: this.$route.path != '/'
             }
         },
+        computed: {
+            tit: function () {
+                return this.title || '青商户外联盟'
+            }
+        },
         mounted: function () {
             this.$nextTick(function () {
             })
+        },
+        methods: {
+            back(){
+                this.$router.go(-1)
+            }
         }
     }
 </script>

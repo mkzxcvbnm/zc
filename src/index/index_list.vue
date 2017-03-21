@@ -6,14 +6,14 @@
                 <li :class="[{ active: currentView == 'partake'}]" @click="currentView = 'partake'">梦想清单</li>
             </ul>
         </div>
-        <transition name="fade" mode="out-in">
+        <transition name="translateX" mode="out-in">
         <ul class="list center" v-if="currentView == 'project'" key="project">
             <template v-for="item in project.data">
-                <li><a href="javascript:;">
+                <li><router-link :to="{ name: 'detail', params: { id: item.id } }">
                     <div class="img contain" :style="{backgroundImage: 'url('+item.litpic+')'}"></div>
-                    <h2>{{item.title}}</h2>
-                    <p><i class="fa fa-clock-o"></i>{{item.updatetime}}<span>¥ {{item.money}}</span></p>
-                </a></li>
+                    <h3>{{item.title}}</h3>
+                    <p><span class="time"><i class="fa fa-clock-o"></i>{{item.updatetime}}</span><span class="money">¥ {{item.money}}</span></p>
+                </router-link></li>
             </template>
             <div class="weui-loadmore" v-if="project.loading">
                 <i class="weui-loading"></i>
@@ -26,9 +26,16 @@
         <ul class="list center" v-else key="partake">
             <template v-for="item in partake.data">
                 <li><a href="javascript:;">
-                    <div class="img contain" :style="{backgroundImage: 'url('+item.litpic+')'}"></div>
-                    <h2>{{item.title}}</h2>
-                    <p><i class="fa fa-clock-o"></i>{{item.updatetime}}<span>¥ {{item.money}}</span></p>
+                    <img class="list2_img_big" :src="item.litpic">
+                    <div class="list2_r">
+                        <h2>{{item.title}}<span class="time"><i class="fa fa-clock-o"></i>{{item.updatetime}}</span></h2>
+                        <h3>{{item.describe}}</h3>
+                        <p class="ellipsis">{{item.content}}</p>
+                    </div>
+                    <dl>
+                        <dd v-for="upic in item.unum_litpic"><img :src="upic"></dd>
+                    </dl>
+                    <span class="unum">已有{{item.unum}}人参与</span>
                 </a></li>
             </template>
             <div class="weui-loadmore" v-if="partake.loading">
@@ -44,7 +51,6 @@
 </template>
 
 <script>
-    import Swiper from '../js/swiper.min.js';
     let moment = require('moment');
 
     export default {
@@ -143,40 +149,87 @@
             padding-bottom: .3rem;
             border-bottom: 1px solid #ddd;
             margin-bottom: .4rem;
+            @include clearfix;
         }
         .img {
             width: 6.9rem;
             height: 3.22rem;
         }
-        h2 {
+        h3 {
             font-size: .28rem;
             font-weight: normal;
-            padding: .2rem 0;
+            margin: .2rem 0;
         }
         p {
-            font-size: .2rem;
             line-height: 24px;
             color: #999;
+        }
+        .time {
+            color: #999;
+            font-size: .2rem;
+            font-weight: normal;
             i {
                 padding-right: .1rem;
             }
-            span {
+        }
+        .money {
+            float: right;
+            color: $green;
+            font-size: .32rem;
+        }
+        .list2_img_big {
+            width: 1.2rem;
+            height: 1.2rem;
+            float: left;
+            border-radius: 50%;
+            border: .03rem solid #f1f1f1;
+        }
+        h2 {
+            font-size: .32rem;
+            border-bottom: 1px solid #f1f1f1;
+            line-height: 2;
+            font-weight: normal;
+            .time {
                 float: right;
-                color: $green;
-                font-size: .32rem;
             }
         }
+        .list2_r {
+            margin-left: 1.45rem;
+            padding-bottom: .2rem;
+            h3,p {
+                width: 4.2rem;
+            }
+            h3 {
+                @include ellipsis(2);
+                margin: .1rem 0;
+            }
+        }
+        dl {
+            @include clearfix;
+            float: left;
+            dd {
+                float: left;
+                margin-left: -.2rem;
+                &:first-child {
+                    margin-left: 0;
+                }
+                img {
+                    width: .65rem;
+                    height: .65rem;
+                    border-radius: 50%;
+                    border: .03rem solid #fff;
+                }
+            }
+        }
+        .unum {
+            float: right;
+            font-size: .2rem;
+            color: #666;
+            line-height: .65rem;
+        }
     }
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity .3s,transform .3s;
-    }
-    .fade-enter, .fade-leave-active {
-        opacity: 0;
-    }
-    .fade-enter {
-        transform: translateX(5rem);
-    }
-    .fade-leave-active {
-        transform: translateX(-5rem);
+    .translateX-enter-active, .translateX-leave-active {
+        transition: all .3s;
+        position: static;
     }
 </style>

@@ -3,3 +3,16 @@ $green: #09bb07;
     display: flex;
     justify-content: $justify-content;
 }
+@mixin ellipsis ($clamp: 3) {
+    overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: $clamp;-webkit-box-orient: vertical;
+}
+@mixin clearfix () {
+	*zoom: 1;
+    &:after {
+    	content: '';
+    	display: block;
+    	height: 0;
+    	clear: both;
+    	visibility: hidden;
+    }
+}

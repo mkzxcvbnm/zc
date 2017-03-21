@@ -1,12 +1,15 @@
 <template>
     <div class="contianer">
-        <router-view></router-view>
+        <transition name="translateX">
+            <router-view></router-view>
+        </transition>
     </div>
 </template>
 
 <script>
     require('normalize.css/normalize.css');
     require('./css/reset.css');
+    require('weui/dist/style/weui.min.css');
     require('./css/mk.css');
     import mk from './js/mk.js';
 
@@ -42,5 +45,4 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-    @import './css/mk.scss';
 </style>

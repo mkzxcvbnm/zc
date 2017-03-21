@@ -1,37 +1,37 @@
 <template>
     <div class="footer weui-tabbar">
-        <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
+        <router-link :to="{ path: '/'}" class="weui-tabbar__item">
             <span style="display: inline-block;position: relative;">
                 <div class="ficon contain weui-tabbar__icon"></div>
                 <!-- <span class="weui-badge" style="position: absolute;top: -2px;right: -13px;">8</span> -->
             </span>
             <p class="weui-tabbar__label">首页</p>
-        </a>
-        <a href="javascript:;" class="weui-tabbar__item">
+        </router-link>
+        <router-link :to="{ path: '/1'}" class="weui-tabbar__item">
             <span style="display: inline-block;position: relative;">
                 <div class="ficon contain weui-tabbar__icon"></div>
             </span>
             <p class="weui-tabbar__label">消息</p>
-        </a>
-        <a href="javascript:;" class="weui-tabbar__item">
+        </router-link>
+        <router-link :to="{ path: '/2'}" class="weui-tabbar__item">
             <span style="display: inline-block;position: relative;">
                 <div class="ficon contain weui-tabbar__icon"></div>
             </span>
             <p class="weui-tabbar__label">关注</p>
-        </a>
-        <a href="javascript:;" class="weui-tabbar__item">
+        </router-link>
+        <router-link :to="{ path: '/3'}" class="weui-tabbar__item">
             <span style="display: inline-block;position: relative;">
                 <div class="ficon contain weui-tabbar__icon"></div>
                 <span class="weui-badge weui-badge_dot" style="position: absolute;top: 0;right: -6px;"></span>
             </span>
             <p class="weui-tabbar__label">订单</p>
-        </a>
-        <a href="javascript:;" class="weui-tabbar__item">
+        </router-link>
+        <router-link :to="{ path: '/4'}" class="weui-tabbar__item">
             <span style="display: inline-block;position: relative;">
                 <div class="ficon contain weui-tabbar__icon"></div>
             </span>
             <p class="weui-tabbar__label">我的</p>
-        </a>
+        </router-link>
     </div>
 </template>
 

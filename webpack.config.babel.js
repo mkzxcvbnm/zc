@@ -12,6 +12,8 @@ module.exports = {
     entry: {
         main: path.resolve(SRC_PATH, 'index.js'),
         common: ['vue', 'vue-router'],
+        moment: ['moment'],
+        swiper: path.resolve(SRC_PATH, 'js/swiper.min.js'),
         jquery: ['jquery']
     },
     output: {
@@ -45,7 +47,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif)$/,
-                loader: 'url?limit=6000'
+                loader: 'file-loader?limit=6000'
             },
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -96,7 +98,7 @@ module.exports = {
         }),
         //将公共代码抽离出来合并为一个文件
         new webpack.optimize.CommonsChunkPlugin({
-            name: ['common', 'jquery'],
+            name: ['common', 'jquery', 'moment', 'swiper'],
             minChunks: Infinity
         }),
         new HtmlWebpackPlugin({
@@ -104,7 +106,7 @@ module.exports = {
             filename: 'index.html',
             template: SRC_PATH + '/index.html',//Webpack需要模板的路径
             inject: true,//当传递true或'body'所有javascript资源将放置在body元素的底部。'head'将脚本放置在head元素中
-            //favicon: '',//将给定图标路径输出HTML
+            favicon: 'src/favicon.ico',//将给定图标路径输出HTML
             minify: {
                 removeComments: true,//删除HTML注释
                 collapseWhitespace: true//折叠文档树中文本节点间的空白
