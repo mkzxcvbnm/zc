@@ -21,10 +21,17 @@ const router = new VueRouter({
                     },
                 },
                 {
-                    name: 'detail',
-                    path: '/detail/:id',
+                    name: 'project',
+                    path: '/project/:id',
                     component: resolve => {
-                        require(['./detail/main.vue'], resolve);
+                        require(['./project/main.vue'], resolve);
+                    },
+                },
+                {
+                    name: 'project_pay',
+                    path: '/project_pay/:id',
+                    component: resolve => {
+                        require(['./project/project_pay.vue'], resolve);
                     },
                 },
             ]

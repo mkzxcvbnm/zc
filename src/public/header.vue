@@ -16,19 +16,28 @@
             }
         },
         computed: {
+        },
+        computed: vuex.mapState({
+            ...vuex.mapState([
+                'isback'
+            ]),
             tit: function () {
                 return this.title || '青商户外联盟'
+            }
+        }),
+        methods: {
+            ...vuex.mapMutations([
+                'ISBACK'
+            ]),
+            back(){
+                this.ISBACK(true)
+                this.$router.go(-1)
             }
         },
         mounted: function () {
             this.$nextTick(function () {
             })
         },
-        methods: {
-            back(){
-                this.$router.go(-1)
-            }
-        }
     }
 </script>
 

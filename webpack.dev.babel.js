@@ -11,7 +11,7 @@ const node_modules = path.resolve(__dirname, 'node_modules');
 module.exports = {
     entry: {
         main: path.resolve(SRC_PATH, 'index.js'),
-        common: ['vue', 'vue-router'],
+        common: ['vue', 'vue-router', 'vuex'],
         moment: ['moment'],
         swiper: path.resolve(SRC_PATH, 'js/swiper.min.js'),
         jquery: ['jquery']
@@ -90,6 +90,7 @@ module.exports = {
         //提供全局的变量，在模块中使用无需用require引入
         new webpack.ProvidePlugin({
             $: 'jquery',
+            vue: 'vue',
             vuex: 'vuex',
         }),
         //将公共代码抽离出来合并为一个文件

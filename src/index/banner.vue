@@ -52,7 +52,7 @@
     }
 </script>
 
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
     @import '../css/swiper.min.css';
     .banner {
         height: 3.2rem;

@@ -9,7 +9,7 @@
         <transition name="translateX" mode="out-in">
         <ul class="list center" v-if="currentView == 'project'" key="project">
             <template v-for="item in project.data">
-                <li><router-link :to="{ name: 'detail', params: { id: item.id } }">
+                <li><router-link :to="{ name: 'project', params: { id: item.id } }">
                     <div class="img contain" :style="{backgroundImage: 'url('+item.litpic+')'}"></div>
                     <h3>{{item.title}}</h3>
                     <p><span class="time"><i class="fa fa-clock-o"></i>{{item.updatetime}}</span><span class="money">¥ {{item.money}}</span></p>

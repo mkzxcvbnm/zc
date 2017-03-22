@@ -1,40 +1,43 @@
 <template>
-    <div class="detail">
-        <header-view :title="this.data.title"></header-view>
+    <div class="project upper_spacing">
+        <header-view :title="data.title"></header-view>
         <div class="project_top f">
             <div class="project_img">
-                <img :src="this.data.litpic">
-                <p class="ellipsis">{{this.data.describe}}</p>
+                <img :src="data.litpic">
+                <p class="ellipsis">{{data.describe}}</p>
             </div>
             <div class="project_money">
-                <i>&yen;</i>{{this.data.money}}
+                <i class="yen">&yen;</i>{{data.money}}
             </div>
         </div>
         <div class="weui-tab f">
             <div class="weui-navbar">
-                <div class="weui-navbar__item weui-bar__item_on" @click="currentView = 1">
+                <div class="weui-navbar__item" :class="{ 'weui-bar__item_on': currentView == 1 }" @click="currentView = 1">
                     详情描述
                 </div>
-                <div class="weui-navbar__item" @click="currentView = 2">
+                <div class="weui-navbar__item" :class="{ 'weui-bar__item_on': currentView == 2 }" @click="currentView = 2">
                     报名相关
                 </div>
-                <div class="weui-navbar__item" @click="currentView = 3">
+                <div class="weui-navbar__item" :class="{ 'weui-bar__item_on': currentView == 3 }" @click="currentView = 3">
                     参赛标准
                 </div>
             </div>
         </div>
         <div class="content">
-            {{this.tab_panel}}
+            {{tab_panel}}
         </div>
-        <a href="javascript:;" class="weui-btn weui-btn_primary">页面主操作 Normal</a>
+        <div class="bbtn translate-hidden">
+            <router-link :to="{ name: 'project_pay', params: { id: data.id } }" class="weui-btn weui-btn_primary" v-if="data.Partake == 1">我要报名</router-link>
+            <router-link :to="{ name: 'project', params: { id: data.id } }" class="weui-btn weui-btn_primary" v-if="data.Partake == 2">查看详情</router-link>
+            <router-link :to="{ name: 'project', params: { id: data.id } }" class="weui-btn weui-btn_primary" v-if="data.Partake == 3">立即支付</router-link>
+            <a href="javascript:;" class="weui-btn weui-btn_warn" v-if="data.Partake == 4">活动结束</a>
+        </div>
     </div>
 </template>
 
 <script>
-    import header from '../public/header.vue';
-
     export default {
-        name: 'detail',
+        name: 'project',
         data: function () {
             return {
                 data: {},
@@ -50,9 +53,6 @@
                 }
             }
         },
-        components : {
-            'header-view': header,
-        },
         created: function () {
             this.$http.jsonp('http://qingshang.fankeweb.cn/index.php/api/index/name/Projectshow/',{
                 params: {
@@ -61,7 +61,6 @@
             })
             .then((response) => {
                 this.data = response.data[0];
-                console.log(response.data[0])
             })
             .catch(function(response) {
                 console.log(response)
@@ -70,7 +69,7 @@
     }
 </script>
 
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
     @import '../css/mk.scss';
     .project_img {
         position: relative;
@@ -98,10 +97,9 @@
         border-bottom: 1px solid #f1f1f1;
         margin-left: .3rem;
         font-size: .36rem;
-        i {
-            font-style: normal;
-            padding-right: .1rem;
-        }
+    }
+    .content {
+        margin-bottom: .1rem;
     }
     .weui-navbar {
         background: #fff;
