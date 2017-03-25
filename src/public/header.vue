@@ -9,13 +9,11 @@
     require('font-awesome-webpack');
     export default {
         name: 'header',
-        props: ['title'],
+        props: ['title', 'modeback'],
         data: function () {
             return {
                 back_show: this.$route.path != '/'
             }
-        },
-        computed: {
         },
         computed: vuex.mapState({
             ...vuex.mapState([
@@ -23,6 +21,9 @@
             ]),
             tit: function () {
                 return this.title || '青商户外联盟'
+            },
+            mode_back(){
+                return this.modeback;
             }
         }),
         methods: {
@@ -30,8 +31,12 @@
                 'ISBACK'
             ]),
             back(){
-                this.ISBACK(true)
-                this.$router.go(-1)
+                if (this.mode_back) {
+                    this.$emit('modeclose')
+                }else{
+                    this.ISBACK(true)
+                    this.$router.go(-1)
+                }
             }
         },
         mounted: function () {

@@ -1,6 +1,6 @@
 <template>
     <div class="partake_other upper_spacing upper_lower">
-        <header-view :title="data.title"></header-view>
+        <header-view :title="data.title" @modeclose="closepay" :modeback="partake_pay_op"></header-view>
         <transition name="translateY">
         <div v-if="!partake_pay_op">
             <div class="partake_top">
