@@ -35,29 +35,29 @@ npm run build   (-p 压缩)
 │
 ├── webpack.dev.babel.js        # webpack开发环境配置文件
 │
-└── src                 # 源代码
+└── src                         # 源代码
     │
-    ├── css             # 样式文件
+    ├── css                     # 样式文件
     │
-    ├── img             # 图片资源
+    ├── img                     # 图片资源
     │
-    ├── index           # 首页模块
+    ├── index                   # 首页模块
     │
-    ├── js              # 脚本代码
+    ├── js                      # 脚本代码
     │
-    ├── partake         # 众筹项目模块
+    ├── partake                 # 众筹项目模块
     │
-    ├── project         # 项目模块
+    ├── project                 # 项目模块
     │
-    ├── public          # 公共模块
+    ├── public                  # 公共模块
     │
-    ├── vuex            # vue状态管理
+    ├── vuex                    # vue状态管理
     │
-    ├── favicon.ico     # 网站图标
+    ├── favicon.ico             # 网站图标
     │
-    ├── index.html      # webpack打包输出模板
+    ├── index.html              # webpack打包输出模板
     │
-    ├── index.js        # vue入口(包含路由)
+    ├── index.js                # vue入口(包含路由)
     │
-    └── main.vue        # 路由根
+    └── main.vue                # 路由根
 </pre>
