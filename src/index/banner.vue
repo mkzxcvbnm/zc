@@ -1,7 +1,5 @@
 <template>
     <div id="banner" class="banner swiper-container">
-        <template v-for="item in banner_data">
-        </template>
         <div class="swiper-wrapper">
             <template v-for="item in banner_data">
                 <div class="swiper-slide contain" :style="{ backgroundImage: 'url('+item.litpic+')' }"></div>
@@ -53,9 +51,6 @@
     .banner {
         height: 3.2rem;
         margin-bottom: .2rem;
-        background: #fff;
-    }
-    .swiper-pagination-bullet-active {
         background: #fff;
     }
 </style>

@@ -48,5 +48,5 @@
 /index.php/api/index/name/Projectlist
 3、获取支付列表
 /index.php/api/index/name/Paylist
-4、获取系统配置信息【recollections(参与感言)\paycontent(支付默认留言内容)\paymoney(快捷支付金额)】
+4、获取系统配置信息【recollections(参与感言)\paycontent(支付默认留言内容)\paymoney(快捷支付金额)\wxewm(关注二维码)】
 /index.php/api/index/name/Config/cname/recollections

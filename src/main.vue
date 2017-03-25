@@ -1,8 +1,8 @@
 <template>
     <div class="contianer">
-        <translateX>
+         <mktransition>
             <router-view></router-view>
-        </translateX>
+        </mktransition>
         <tool-view></tool-view>
     </div>
 </template>
@@ -18,8 +18,36 @@
     vue.component('footer-view', footer);
     import tool from './public/tool.vue';
     vue.component('tool-view', tool);
-    
-    vue.component('translateX', {//可复用过渡组件
+
+    //可复用过渡组件(通用)
+    vue.component('mktransition', {
+        template: `<transition
+            :name="transitionName"
+            @before-leave="beforeLeave"
+        >
+            <slot></slot>
+        </transition>`,
+        computed: vuex.mapState({
+            ...vuex.mapState([
+                'transitionName'
+            ]),
+            transitionName (state) {
+                return state.isback?state.transitionName+'-back':state.transitionName
+            },
+        }),
+        methods: {
+            ...vuex.mapMutations([
+                'ISBACK',
+                'SETTRANSITIONNAME'
+            ]),
+            beforeLeave: function () {
+                this.ISBACK(false)
+                this.SETTRANSITIONNAME('translateX')
+            },
+        }
+    })
+    //可复用过渡组件(左右)
+    vue.component('translateX', {
         template: `<transition
             :name="transitionName"
             @before-leave="beforeLeave"
@@ -40,8 +68,8 @@
             },
         }
     })
-
-    vue.component('translateY', {//可复用过渡组件
+    //可复用过渡组件(上下)
+    vue.component('translateY', {
         template: `<transition
             :name="transitionName"
             @before-leave="beforeLeave"
@@ -159,7 +187,7 @@
     .translateX-enter-active, .translateX-leave-active,.translateX-back-enter-active, .translateX-back-leave-active {
         position: absolute;
         width: 100%;
-        transition: all .8s;
+        transition: all .6s,opacity 1s;
     }
     .translateX-enter-active .translate-hidden, .translateX-leave-active .translate-hidden,.translateX-back-enter-active .translate-hidden, .translateX-back-leave-active .translate-hidden {
         display: none;
@@ -183,7 +211,7 @@
     .translateY-enter-active, .translateY-leave-active,.translateY-back-enter-active, .translateY-back-leave-active {
         position: absolute;
         width: 100%;
-        transition: all .8s;
+        transition: all .6s,opacity 1s;
     }
     .translateY-enter-active .translate-hidden, .translateY-leave-active .translate-hidden,.translateY-back-enter-active .translate-hidden, .translateY-back-leave-active .translate-hidden {
         display: none;
@@ -250,5 +278,16 @@
     }
     .row_r {
         margin-right: -.3rem;
+    }
+    #app {
+        .weui-cells,.weui-btn {
+            font-size: .32rem;
+        }
+        .swiper-pagination-bullet {
+            transition: all .2s;
+        }
+        .swiper-pagination-bullet-active {
+            background: #fff;
+        }
     }
 </style>

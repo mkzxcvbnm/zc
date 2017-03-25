@@ -93,7 +93,6 @@
                 mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Payzc',
                 this.params,
                 (response) => {
-                    console.log(this.params)
                     this.loadingToast([false])
                     if (response.data[0].status === 1) {
                         this.toast([true, 3000, response.data[0].mess, () => {

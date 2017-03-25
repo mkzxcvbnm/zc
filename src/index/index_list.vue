@@ -80,10 +80,9 @@
             let t = this;
             this.$nextTick(() => {
                 let getlist = (type) => {
-                    this.$http.jsonp('http://qingshang.fankeweb.cn/index.php/api/index/name/'+type+'',{
-                        params: this[type].params
-                    })
-                    .then((response) => {
+                    mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/'+type+'',
+                    this[type].params,
+                    (response) => {
                         if (!response.data.length) {//没有数据了
                             this[type].loading = 0;
                             return;
@@ -94,9 +93,6 @@
                             this[type].data.push(v);//渲染
                         }
                         this.$set(this[type].params, 'pages', this[type].params.pages + 1);//页数+1
-                    })
-                    .catch((response) => {
-                        console.log(response)
                     })
                 }
                 getlist('project');//最新项目

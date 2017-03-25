@@ -116,21 +116,20 @@
             },
             pay(){
                 this.loadingToast([true])
-                this.$http.jsonp('http://qingshang.fankeweb.cn/index.php/api/index/name/Pay',{
-                    params: this.params
-                })
-                .then((response) => {
+                mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Pay',
+                this.params,
+                (response) => {
                     this.loadingToast([false])
                     if (response.data[0].status === 0) {
-                        this.toast([true, , response.data[0].mess, () => {
+                        this.toast([true, 3000, response.data[0].mess, () => {
                             this.ISBACK(true)
-                            this.$router.go(-1)
+                            this.$router.replace('/')
                         }])
                     }else{
                         this.toast([false, , response.data[0].mess])
                     }
-                })
-                .catch((response) => {
+                },
+                (response) => {
                     this.loadingToast([false])
                     this.toast([false, , response])
                 })

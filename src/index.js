@@ -65,10 +65,10 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    name: 'demo',
-                    path: '/demo',
+                    name: 'follow',
+                    path: '/follow',
                     component: resolve => {
-                        require(['./demo.vue'], resolve);
+                        require(['./follow/main.vue'], resolve);
                     }
                 },
             ]

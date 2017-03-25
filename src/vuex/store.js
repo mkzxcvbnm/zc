@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 const state = {
     count: 0,
+    transitionName: 'translateX',
     isback: false,//点击回退按钮传值给transition做是否后退判断
     userinfo: {},//个人信息
     mask: false,//遮罩
@@ -28,6 +29,9 @@ const getters = {
 const mutations = {
     ADD (state) {
         state.count++
+    },
+    SETTRANSITIONNAME (state, name) {
+        state.transitionName = name;
     },
     SETUSERINFO (state, data) {
         state.userinfo = data

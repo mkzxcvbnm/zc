@@ -13,12 +13,12 @@
             </span>
             <p class="weui-tabbar__label">消息</p>
         </router-link>
-        <router-link :to="{ path: '/2'}" class="weui-tabbar__item">
+        <a href="javascript:;" class="weui-tabbar__item" @click="follow">
             <span style="display: inline-block;position: relative;">
                 <div class="ficon contain weui-tabbar__icon"></div>
             </span>
             <p class="weui-tabbar__label">关注</p>
-        </router-link>
+        </a>
         <router-link :to="{ path: '/3'}" class="weui-tabbar__item">
             <span style="display: inline-block;position: relative;">
                 <div class="ficon contain weui-tabbar__icon"></div>
@@ -41,7 +41,18 @@
         data(){
             return {
             }
-        }
+        },
+        methods: {
+            ...vuex.mapMutations([
+                'ISBACK',
+                'SETTRANSITIONNAME'
+            ]),
+            follow(){
+                this.ISBACK(true)
+                this.SETTRANSITIONNAME('translateY')
+                this.$router.push('/follow')
+            }
+        },
     }
 </script>
 
