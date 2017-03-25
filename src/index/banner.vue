@@ -40,12 +40,9 @@
         mounted: function () {
             var t = this;
             this.$nextTick(function () {
-                this.$http.jsonp('http://qingshang.fankeweb.cn/index.php/api/index/name/banner')
-                .then((response) => {
+                mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/banner',{
+                },(response)=>{
                     this.banner_data = response.data;
-                })
-                .catch(function(response) {
-                    console.log(response)
                 })
             });
         }

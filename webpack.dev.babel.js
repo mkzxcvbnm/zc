@@ -1,7 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const vuex = require('vuex');
-const jquery = require('jquery');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const SRC_PATH = path.resolve(__dirname, 'src');
@@ -12,9 +10,9 @@ module.exports = {
     entry: {
         main: path.resolve(SRC_PATH, 'index.js'),
         common: ['vue', 'vue-router', 'vuex'],
-        moment: ['moment'],
+        jquery: ['jquery'],
         swiper: path.resolve(SRC_PATH, 'js/swiper.min.js'),
-        jquery: ['jquery']
+        moment: ['moment']
     },
     output: {
         filename: '[name].js',
@@ -92,6 +90,7 @@ module.exports = {
             $: 'jquery',
             vue: 'vue',
             vuex: 'vuex',
+            mk: path.resolve(SRC_PATH, 'js/mk.js'),
         }),
         //将公共代码抽离出来合并为一个文件
         new webpack.optimize.CommonsChunkPlugin({

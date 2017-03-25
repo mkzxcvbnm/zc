@@ -5,8 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "hot": "webpack-dev-server --config webpack.dev.babel.js --progress",
-    "dev": "webpack --config webpack.dev.babel.js -w -p",
-    "map": "webpack --config webpack.dev.babel.js -w -p -d",
+    "dev": "webpack --config webpack.dev.babel.js -w",
+    "map": "webpack --config webpack.dev.babel.js -w -d",
     "build": "webpack -p"
   },
   "author": "mk",

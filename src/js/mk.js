@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     rem(size = 750){
         let html = document.getElementsByTagName('html')[0];
         let setSize = () => {
@@ -10,22 +10,24 @@ export default {
         window.onresize = setSize;
         return this;
     },
-    get(json = {
-        data: {},
-        success: ()=>{},
-        error: ()=>{}
-    }){
-        $.ajax({
-            type     : 'GET',
-            url      : json.url,
-            data     : json.data,
-            dataType : 'jsonp',
-            success: function (data) {
-                json.success(data)
-            },
-            error : function (XMLHttpRequest, textStatus, errorThrown) {
-                json.error(XMLHttpRequest, textStatus, errorThrown)
-            }
-        });
+    http(url, params={}, success=()=>{}, error=()=>{}){
+        this.$http.jsonp(url,{
+            params: params
+        })
+        .then((response) => {
+            success(response)
+        })
+        .catch(function(response) {
+            error(response)
+            console.log(response)
+        })
+    },
+    //测试随机数
+    random(){
+        if (Math.random()<.5) {
+            return 0;
+        }else{
+            return 1;
+        }
     }
 }

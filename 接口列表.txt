@@ -25,6 +25,8 @@
 项目详情
 1、获取项目详情，参数：id 返回结果：当前用户是否已参加过该活动
 /index.php/api/index/name/Projectshow/id/1
+2、参与项目详情
+/index.php/api/index/name/Partakeshow/id/1
 
 提交订单
 1、提交订单，参数：项目id 购买数量 pay_num
@@ -33,9 +35,18 @@
 /index.php/api/index/name/Pay/id/1/pay_num/5/pay_type/wx
 
 我要报名
-1、提交信息，创建参与项目数据 参数:项目ID，自定义消息
+1、提交信息，创建参与项目数据 参数:项目ID，自定义消息 传diymess为小项目id 不传为大项目id
 /index.php/api/index/name/Partakeadd/id/1/diymess/测试消息
 
 我的众筹
 1、项目列表
 /index.php/api/index/name/Partake/pages/1/limit/2/type/my
+
+1、获取单个订单详情
+/index.php/api/index/name/Payshow/id/1
+2、获取订单列表
+/index.php/api/index/name/Projectlist
+3、获取支付列表
+/index.php/api/index/name/Paylist
+4、获取系统配置信息【recollections(参与感言)\paycontent(支付默认留言内容)\paymoney(快捷支付金额)】
+/index.php/api/index/name/Config/cname/recollections

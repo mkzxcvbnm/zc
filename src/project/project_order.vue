@@ -1,5 +1,5 @@
 <template>
-    <div class="project_pay1 upper_spacing">
+    <div class="project_order upper_spacing upper_lower">
         <header-view :title="data.title"></header-view>
         <div class="pay_box">
             <div class="pay_img contain" :style="{ backgroundImage: 'url('+data.litpic+')' }"></div>
@@ -11,7 +11,7 @@
                 <div class="fl">购买数量</div>
                 <div class="num_box">
                     <div class="minus" @click="minus">-</div>
-                    <span>{{params.pay_num}}</span>
+                    <input v-model="params.pay_num" @input="onInput(params.pay_num)">
                     <div class="plus" @click="plus">+</div>
                 </div>
             </div>
@@ -20,39 +20,46 @@
             </div>
         </div>
         <div class="bbtn translate-hidden">
-            <a v-if="data.Partake == 1" @click="pay" href="javascript:;" class="weui-btn weui-btn_primary">提交订单</a>
+            <a @click="pay" href="javascript:;" class="weui-btn weui-btn_primary">提交订单</a>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: 'project_pay',
+        name: 'project_order',
         data: function () {
             return {
-                data: {},
-                params: {
+                data: {},//当前项目数据
+                params: {//提交接口数据
                     id: this.$route.params.id,
                     pay_num: 1
-                },
+                }
             }
         },
-        components : {
-        },
         created: function () {
-            this.$http.jsonp('http://qingshang.fankeweb.cn/index.php/api/index/name/Projectshow/',{
-                params: {
-                    id: this.$route.params.id
-                }
-            })
-            .then((response) => {
-                this.data = response.data[0];
-            })
-            .catch(function(response) {
-                console.log(response)
+            mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Projectshow/',{
+                id: this.$route.params.id
+            },(response)=>{
+                this.$set(this, 'data', response.data[0]);
             })
         },
         methods: {
+            ...vuex.mapMutations([
+            ]),
+            ...vuex.mapActions([
+                'mask',
+                'toast',
+                'loadingToast',
+            ]),
+            onInput(v){
+                if(typeof v == 'string') {
+                    this.$set(this.params,'pay_num',v.replace(/\D/g,''))
+                }
+                if (v < 1) {
+                    this.$set(this.params,'pay_num', 1)
+                }
+            },
             minus(){
                 if (this.params.pay_num > 1) {
                     this.params.pay_num--
@@ -62,17 +69,24 @@
                 this.params.pay_num++
             },
             pay(){
-                this.$http.jsonp('http://qingshang.fankeweb.cn/index.php/api/index/name/Pay',{
-                    params: this.params
+                this.loadingToast([true])
+                mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Pay',
+                this.params,
+                (response)=>{
+                    this.loadingToast([false])
+                    if (response.data[0].status === 0) {
+                        this.toast([true, , response.data[0].mess, () => {
+                            this.$router.push({ name: 'project_pay', params: { id: response.data[0].id }})
+                        }])
+                    }else{
+                        this.toast([false, , response.data[0].mess])
+                    }
+                },
+                (response)=>{
+                    this.loadingToast([false])
+                    this.toast([false, , response])
                 })
-                .then((response) => {
-                    this.data = response.data[0];
-                })
-                .catch(function(response) {
-                    console.log(response)
-                })
-                // 
-            }
+            },
         },
     }
 </script>
@@ -121,7 +135,7 @@
             float: right;
             margin-top: .2rem;
             margin-right: .3rem;
-            div,span {
+            div,input {
                 width: .8rem;
                 height: .68rem;
                 float: left;
@@ -137,9 +151,10 @@
                     background: darken(#f1f1f1, 10%);
                 }
             }
-            span {
+            input {
                 border-left: 0;
                 border-right: 0;
+                text-align: center;
             }
         }
     }

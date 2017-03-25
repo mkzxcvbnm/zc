@@ -1,22 +1,26 @@
 <template>
     <div>
-        <div id="mask" class="weui-mask" :style="{'display': mask?'blcok':'none'}"></div>
+        <transition name="fade">
+        <div id="mask" class="weui-mask" v-if="mask"></div>
+        </transition>
 
-        <div id="toast" :style="{'display': toast?'blcok':'none'}">
-            <div class="weui-mask_transparent"></div>
+        <transition name="fade">
+        <div id="toast" class="weui-mask" v-if="toast.open">
             <div class="weui-toast">
-                <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                <i class="weui-icon_toast" :class="toast.sw?'weui-icon-success-no-circle':'weui-icon-warn'"></i>
                 <p class="weui-toast__content">{{toast.text}}</p>
             </div>
         </div>
+        </transition>
 
-        <div id="loadingToast" :style="{'display': loadingToast?'blcok':'none'}">
-            <div class="weui-mask_transparent"></div>
+        <transition name="fade">
+        <div id="loadingToast" class="weui-mask" v-if="loadingToast.open">
             <div class="weui-toast">
                 <i class="weui-loading weui-icon_toast"></i>
                 <p class="weui-toast__content">{{loadingToast.text}}</p>
             </div>
         </div>
+        </transition>
     </div>
 </template>
 
@@ -41,5 +45,8 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-    
+    #toast .weui-icon-warn {
+        font-size: 1.2rem;
+        padding-bottom: .2rem;
+    }
 </style>

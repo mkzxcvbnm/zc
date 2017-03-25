@@ -11,7 +11,6 @@
     require('normalize.css/normalize.css');
     require('./css/reset.css');
     require('weui/dist/style/weui.min.css');
-    import mk from './js/mk.js';
 
     import header from './public/header.vue';
     vue.component('header-view', header);
@@ -42,6 +41,30 @@
         }
     })
 
+    vue.component('translateY', {//可复用过渡组件
+        template: `<transition
+            :name="transitionName"
+            @before-leave="beforeLeave"
+        >
+            <slot></slot>
+        </transition>`,
+        computed: vuex.mapState({
+            transitionName (state) {
+                return state.isback?'translateY-back':'translateY'
+            },
+        }),
+        methods: {
+            ...vuex.mapMutations([
+                'ISBACK'
+            ]),
+            beforeLeave: function () {
+                this.ISBACK(false)
+            },
+        }
+    })
+
+    //vue.prototype.$mk = mk;
+
     export default {
         name: 'contianer',
         data: function () {
@@ -61,17 +84,15 @@
                 'SETUSERINFO',
             ]),
             ...vuex.mapActions([
+                'updateActiveNote'
             ]),
         },
         created: function () {
             mk.rem();
-            this.$http.jsonp('http://qingshang.fankeweb.cn/index.php/api/index/name/Userinfo')
-            .then((response) => {
+            mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Userinfo',{
+            },(response)=>{
                 this.SETUSERINFO(response.data[0])
                 //console.log(this.userinfo)
-            })
-            .catch(function(response) {
-                console.log(response)
             })
         },
         mounted: function () {
@@ -82,6 +103,7 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
+    @import './css/mk.scss';
     body {
         font: .24rem/1.14 "\5FAE\8F6F\96C5\9ED1", "arial";
         background: #f1f1f1;
@@ -93,8 +115,14 @@
     .upper_spacing {
         padding-top: .78rem;
     }
+    .upper_lower {
+        padding-bottom: 1.82rem;
+    }
     img {
         max-width: 100%;
+    }
+    .green {
+        color: $green;
     }
     .cover {
         background-repeat: no-repeat;
@@ -116,6 +144,12 @@
     }
     .f {
         background: #fff;
+    }
+    .fl {
+        float: left;
+    }
+    .fr {
+        float: right;
     }
     .content {
         @extend .f;
@@ -146,6 +180,30 @@
         transform: translateX(7.5rem);
     }
 
+    .translateY-enter-active, .translateY-leave-active,.translateY-back-enter-active, .translateY-back-leave-active {
+        position: absolute;
+        width: 100%;
+        transition: all .8s;
+    }
+    .translateY-enter-active .translate-hidden, .translateY-leave-active .translate-hidden,.translateY-back-enter-active .translate-hidden, .translateY-back-leave-active .translate-hidden {
+        display: none;
+    }
+    .translateY-enter, .translateY-leave-active, .translateY-back-enter, .translateY-back-leave-active {
+        opacity: 0;
+    }
+    .translateY-enter {
+        transform: translateY(100%);
+    }
+    .translateY-leave-active {
+        transform: translateY(-100%);
+    }
+    .translateY-back-enter {
+        transform: translateY(-100%);
+    }
+    .translateY-back-leave-active {
+        transform: translateY(100%);
+    }
+
     .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
     }
@@ -167,6 +225,30 @@
         background: #fff;
         .weui-btn {
             font-size: .36rem;
+            border-radius: 0;
         }
+    }
+    .bbtn2 {
+        @include flex(space-between);
+        .weui-btn {
+            width: 48%;
+            margin: 0!important;
+            &.weui-btn_default{
+                background: #e5e5e5;
+            }
+            &:after {
+                border: 0;
+            }
+        }
+    }
+    .line {
+        border-top: 1px solid #dedede;
+        clear: both;
+    }
+    .row_l {
+        margin-left: -.3rem;
+    }
+    .row_r {
+        margin-right: -.3rem;
     }
 </style>

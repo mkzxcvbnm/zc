@@ -8,14 +8,15 @@ const state = {
     isback: false,//点击回退按钮传值给transition做是否后退判断
     userinfo: {},//个人信息
     mask: false,//遮罩
-    toast: {
+    toast: {//成功提示
         open: false,
-        text: '已完成'
-    },//成功提示
-    loadingToast: {
+        sw: true,
+        text: '成功'
+    },
+    loadingToast: {//加载提示
         open: false,
-        text: '数据加载中'
-    },//加载提示
+        text: '请稍后...'
+    },
 }
 
 const getters = {
@@ -37,11 +38,11 @@ const mutations = {
     MASK (state, bool) {
         state.mask = bool
     },
-    TOAST (state, bool) {
-        state.toast = bool
+    TOAST (state, arg) {
+        state.toast = arg
     },
-    LOADINGTOAST (state, bool) {
-        state.loadingToast = bool
+    LOADINGTOAST (state, arg) {
+        state.loadingToast = arg
     },
 }
 
@@ -51,12 +52,35 @@ const actions = {
     },
     mask ({ commit }, bool) {
         commit('MASK', bool);
+        return this;
     },
-    toast ({ commit }, bool) {
-        commit('TOAST', bool);
+    toast ({ commit }, arg) {
+        arg = arg || [];
+        if (!state.toast.open) {
+            setTimeout(function(){
+                commit('TOAST', {
+                    open: false,
+                    sw: arg[0] || false
+                });
+                if (arg[0] == true) {
+                    if (typeof arg[3] == 'function') {
+                        arg[3]()
+                    }
+                }
+            }, parseInt(arg[1]) || 2000)
+        }
+        commit('TOAST', {
+            open: true,
+            sw: arg[0] || false,
+            text: arg[2] || '成功',
+        });
     },
-    loadingToast ({ commit }, bool) {
-        commit('LOADINGTOAST', bool);
+    loadingToast ({ commit }, arg) {
+        arg = arg || [];
+        commit('LOADINGTOAST', {
+            open: arg[0] || false,
+            text: arg[1] || '请稍后...',
+        });
     },
 }
 

@@ -11,8 +11,8 @@
             <template v-for="item in project.data">
                 <li><router-link :to="{ name: 'project', params: { id: item.id } }">
                     <div class="img contain" :style="{backgroundImage: 'url('+item.litpic+')'}"></div>
-                    <h3>{{item.title}}</h3>
-                    <p><span class="time"><i class="fa fa-clock-o"></i>{{item.updatetime}}</span><span class="money">¥ {{item.money}}</span></p>
+                    <h3>{{item.title}}<span class="time"><i class="fa fa-clock-o"></i>{{item.updatetime}}</span></h3>
+                    <!-- <p><span class="time"><i class="fa fa-clock-o"></i>{{item.updatetime}}</span><span class="money">¥ {{item.money}}</span></p> -->
                 </router-link></li>
             </template>
             <div class="weui-loadmore" v-if="project.loading">
@@ -25,7 +25,7 @@
         </ul>
         <ul class="list center" v-else key="partake">
             <template v-for="item in partake.data">
-                <li><a href="javascript:;">
+                <li><router-link :to="{ name: 'partake', params: { id: item.id } }">
                     <img class="list2_img_big" :src="item.litpic">
                     <div class="list2_r">
                         <h2>{{item.title}}<span class="time"><i class="fa fa-clock-o"></i>{{item.updatetime}}</span></h2>
@@ -36,7 +36,7 @@
                         <dd v-for="upic in item.unum_litpic"><img :src="upic"></dd>
                     </dl>
                     <span class="unum">已有{{item.unum}}人参与</span>
-                </a></li>
+                </router-link></li>
             </template>
             <div class="weui-loadmore" v-if="partake.loading">
                 <i class="weui-loading"></i>
@@ -159,6 +159,9 @@
             font-size: .28rem;
             font-weight: normal;
             margin: .2rem 0;
+            .time {
+                float: right;
+            }
         }
         p {
             line-height: 24px;
