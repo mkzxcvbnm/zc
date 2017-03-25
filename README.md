@@ -53,6 +53,8 @@ npm run build   (-p 压缩)
     │
     ├── vuex                    # vue状态管理
     │
+    ├── demo.vue                # vue-modular-demo
+    │
     ├── favicon.ico             # 网站图标
     │
     ├── index.html              # webpack打包输出模板
