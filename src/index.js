@@ -64,6 +64,13 @@ const router = new VueRouter({
                         require(['./partake/partake_my_pay.vue'], resolve);
                     }
                 },
+                {
+                    name: 'demo',
+                    path: '/demo',
+                    component: resolve => {
+                        require(['./demo.vue'], resolve);
+                    }
+                },
             ]
         },{ path: '*', redirect: '/' }
     ],

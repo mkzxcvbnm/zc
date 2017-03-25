@@ -33,7 +33,7 @@
     export default {
         name: 'project_content',
         props: ['pdata'],
-        data: function () {
+        data(){
             return {
                 currentView: 1
             }

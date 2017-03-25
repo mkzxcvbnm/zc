@@ -28,7 +28,7 @@
 
     export default {
         name: 'project',
-        data: function () {
+        data(){
             return {
                 data: {},
                 currentView: 1
@@ -43,13 +43,13 @@
                 }
             }
         },
-        components : {
+        components: {
             'project-content-view' : project_content,
         },
-        created: function () {
+        created(){
             mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Projectshow/',{
                 id: this.$route.params.id
-            },(response)=>{
+            },(response) => {
                 response.data[0].status = 2;
                 response.data[0].Partake = 0;
                 this.$set(this,'data',response.data[0])
@@ -66,7 +66,7 @@
                 mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Partakeadd/',{
                     id: this.$route.params.id
                 },
-                (response)=>{
+                (response) => {
                     this.loadingToast([false])
                     if (response.data[0].status === 0) {
                         this.toast([true, , response.data[0].mess, () => {
@@ -76,7 +76,7 @@
                         this.toast([false, , response.data[0].mess])
                     }
                 },
-                (response)=>{
+                (response) => {
                     this.loadingToast([false])
                     this.toast([false, , response])
                 })

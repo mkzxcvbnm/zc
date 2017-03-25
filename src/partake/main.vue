@@ -13,7 +13,7 @@
 
     export default {
         name: 'partake',
-        data: function () {
+        data(){
             return {
                 data: {},
             }
@@ -23,15 +23,15 @@
                 'userinfo'//个人信息
             ]),
         }),
-        components : {
+        components: {
             'my-view' : my,
             'other-view' : other,
         },
-        created: function () {
+        created(){
             //获取小项目数据
             mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Partakeshow',{
                 id: this.$route.params.id
-            },(response)=>{
+            },(response) => {
                 response.data[0].uid = mk.random();
                 this.$set(this,'data',response.data[0])
             })

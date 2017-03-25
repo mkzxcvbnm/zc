@@ -10,7 +10,7 @@
     export default {
         name: 'header',
         props: ['title', 'modeback'],
-        data: function () {
+        data(){
             return {
                 back_show: this.$route.path != '/'
             }
@@ -39,8 +39,8 @@
                 }
             }
         },
-        mounted: function () {
-            this.$nextTick(function () {
+        mounted(){
+            this.$nextTick(() => {
             })
         },
     }

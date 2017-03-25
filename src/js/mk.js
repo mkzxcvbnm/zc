@@ -17,7 +17,7 @@ module.exports = {
         .then((response) => {
             success(response)
         })
-        .catch(function(response) {
+        .catch((response) => {
             error(response)
             console.log(response)
         })

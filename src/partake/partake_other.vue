@@ -33,7 +33,7 @@
     export default {
         name: 'partake_other',
         props: ['partakeData'],//小项目数据
-        data: function () {
+        data(){
             return {
                 data: {},
                 params: {//提交接口数据
@@ -43,7 +43,7 @@
                 partake_pay_op: false,//给他支持
             }
         },
-        components : {
+        components: {
             'partake-content-view': partake_content,
             'project-content-view' : project_content,
             'partake-pay-view' : partake_pay,
@@ -52,7 +52,7 @@
             //获取大项目数据
             mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Projectshow/',{
                 id: this.$route.params.id
-            },(response)=>{
+            },(response) => {
                 this.$set(this,'data',response.data[0])
             })
         },

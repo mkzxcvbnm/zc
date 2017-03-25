@@ -55,7 +55,7 @@
 
     export default {
         name: 'index_list',
-        data: function () {
+        data(){
             return {
                 currentView: 'project',
                 project: {//最新项目
@@ -76,9 +76,9 @@
                 }
             }
         },
-        mounted: function () {
+        mounted(){
             let t = this;
-            this.$nextTick(function () {
+            this.$nextTick(() => {
                 let getlist = (type) => {
                     this.$http.jsonp('http://qingshang.fankeweb.cn/index.php/api/index/name/'+type+'',{
                         params: this[type].params
@@ -95,7 +95,7 @@
                         }
                         this.$set(this[type].params, 'pages', this[type].params.pages + 1);//页数+1
                     })
-                    .catch(function(response) {
+                    .catch((response) => {
                         console.log(response)
                     })
                 }

@@ -60,7 +60,7 @@
     export default {
         name: 'partake_my',
         props: ['partakeData'],//小项目数据
-        data: function () {
+        data(){
             return {
                 data: {},//大项目数据
                 params: {
@@ -80,12 +80,12 @@
             //获取大项目数据
             mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Projectshow/',{
                 id: this.$route.params.id
-            },(response)=>{
+            },(response) => {
                 this.$set(this,'data',response.data[0])
             })
             //获取参与感言
             mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Config/cname/recollections/',{
-            },(response)=>{
+            },(response) => {
                 this.$set(this,'recollections',response.data)
             })
         },
@@ -100,7 +100,7 @@
                 //修改信息
                 mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Partakeadd/',
                 this.params,
-                (response)=>{
+                (response) => {
                     this.loadingToast([false])
                     if (response.data[0].status === 0) {
                         this.toast([true, , response.data[0].mess, () => {
@@ -110,7 +110,7 @@
                         this.toast([false, , response.data[0].mess])
                     }
                 },
-                (response)=>{
+                (response) => {
                     this.loadingToast([false])
                     this.toast([false, , response])
                 })

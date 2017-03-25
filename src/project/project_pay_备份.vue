@@ -39,7 +39,7 @@
 <script>
     export default {
         name: 'project_pay',
-        data: function () {
+        data(){
             return {
                 data: {},//当前项目数据
                 params: {}//提交接口数据
@@ -48,14 +48,14 @@
         computed: vuex.mapState({
             ...vuex.mapState([
             ]),
-            btn_name: function(){
+            btn_name(){
                 switch (this.data.Partake) {
                     case 1: return '提交订单'
                     case 3: return '立即支付'
                 }
             }
         }),
-        components : {
+        components: {
         },
         watch: {
             data() {
@@ -76,7 +76,7 @@
                 }
             }
         },
-        created: function () {
+        created(){
             this.$http.jsonp('http://qingshang.fankeweb.cn/index.php/api/index/name/Projectshow/',{
                 params: {
                     id: this.$route.params.id
@@ -85,7 +85,7 @@
             .then((response) => {
                 this.data = response.data[0];
             })
-            .catch(function(response) {
+            .catch((response) => {
                 console.log(response)
             })
         },
@@ -130,7 +130,7 @@
                         this.toast([false, , response.data[0].mess])
                     }
                 })
-                .catch(function(response) {
+                .catch((response) => {
                     this.loadingToast([false])
                     this.toast([false, , response])
                 })

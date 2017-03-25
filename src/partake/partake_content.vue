@@ -40,7 +40,7 @@
     export default {
         name: 'partake_content',
         props: ['pdata', 'ppartakeData'],
-        data: function () {
+        data(){
             return {
                 bar: 0,
             }
@@ -50,9 +50,9 @@
                 return this.pdata;
             },
             partakeData(){
-                setTimeout(function(){
+                setTimeout(() => {
                     this.$set(this,'bar',this.partakeData.money / this.data.money)
-                }.bind(this),50)
+                },50)
                 return this.ppartakeData;
             },
             distime: function(){

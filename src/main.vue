@@ -67,7 +67,7 @@
 
     export default {
         name: 'contianer',
-        data: function () {
+        data(){
             return {
             }
         },
@@ -87,16 +87,16 @@
                 'updateActiveNote'
             ]),
         },
-        created: function () {
+        created(){
             mk.rem();
             mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Userinfo',{
-            },(response)=>{
+            },(response) => {
                 this.SETUSERINFO(response.data[0])
                 //console.log(this.userinfo)
             })
         },
-        mounted: function () {
-            this.$nextTick(function () {
+        mounted(){
+            this.$nextTick(() => {
             })
         }
     }

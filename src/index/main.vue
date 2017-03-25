@@ -13,11 +13,11 @@
 
     export default {
         name: 'index',
-        data: function () {
+        data(){
             return {
             }
         },
-        components : {
+        components: {
             'banner-view' : banner,
             'list-view' : list,
         },

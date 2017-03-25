@@ -21,7 +21,7 @@
 <script>
     export default {
         name: 'partake_my_pay',
-        data: function () {
+        data(){
             return {
                 title: this.$route.params.title,
                 params: {//提交接口数据
@@ -57,7 +57,7 @@
                 this.loadingToast([true])
                 mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Pay/',
                 this.params,
-                (response)=>{
+                (response) => {
                     this.loadingToast([false])
                     if (response.data[0].status === 0) {
                         this.toast([true, 3000, response.data[0].mess, () => {
@@ -68,7 +68,7 @@
                         this.toast([false, , response.data[0].mess])
                     }
                 },
-                (response)=>{
+                (response) => {
                     this.loadingToast([false])
                     this.toast([false, , response])
                 })

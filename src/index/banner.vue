@@ -21,12 +21,12 @@
 
     export default {
         name: 'banner',
-        data: function () {
+        data(){
             return {
                 banner_data: []
             }
         },
-        updated: function(){
+        updated(){
             var swiper = new Swiper('.swiper-container', {
                 pagination: '.swiper-pagination',
                 // nextButton: '.swiper-button-next',
@@ -37,11 +37,10 @@
                 autoplay: 5000,
             });
         },
-        mounted: function () {
-            var t = this;
-            this.$nextTick(function () {
+        mounted(){
+            this.$nextTick(() => {
                 mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/banner',{
-                },(response)=>{
+                },(response) => {
                     this.banner_data = response.data;
                 })
             });

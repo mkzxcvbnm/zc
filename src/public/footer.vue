@@ -38,7 +38,7 @@
 <script>
     export default {
         name: 'footer',
-        data: function () {
+        data(){
             return {
             }
         }

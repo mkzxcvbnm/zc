@@ -43,7 +43,7 @@
     export default {
         name: 'partake_pay',
         props: ['pdata'],
-        data: function () {
+        data(){
             return {
                 data: this.pdata,
                 paymoney: [],
@@ -58,12 +58,12 @@
         created() {
             //获取支付默认留言内容
             mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Config/cname/paycontent',{
-            },(response)=>{
+            },(response) => {
                 this.$set(this.params,'comment',response.data[0])
             })
             //获取快捷支付金额
             mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Config/cname/paymoney',{
-            },(response)=>{
+            },(response) => {
                 this.$set(this,'paymoney',response.data)
                 this.$set(this.params,'money',response.data[0])
             })
@@ -92,7 +92,7 @@
                 this.loadingToast([true])
                 mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Payzc',
                 this.params,
-                (response)=>{
+                (response) => {
                     console.log(this.params)
                     this.loadingToast([false])
                     if (response.data[0].status === 1) {
@@ -103,7 +103,7 @@
                         this.toast([false, , response.data[0].mess])
                     }
                 },
-                (response)=>{
+                (response) => {
                     this.loadingToast([false])
                     this.toast([false, , response])
                 })

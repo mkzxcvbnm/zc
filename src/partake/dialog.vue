@@ -19,7 +19,7 @@
     export default {
         name: 'dialog',
         props: ['dialogOc'],
-        data: function () {
+        data(){
             return {
                 data: ''
             }

@@ -27,7 +27,7 @@
 <script>
     export default {
         name: 'tool',
-        data: function () {
+        data(){
             return {
                 
             }
