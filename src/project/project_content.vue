@@ -43,7 +43,7 @@
         },
         created() {
             //获取大项目数据
-            mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Projectshow/',{
+            mk.http('/name/Projectshow/',{
                 id: this.pid
             },(response) => {
                 this.$set(this,'pro_data',response.data[0])

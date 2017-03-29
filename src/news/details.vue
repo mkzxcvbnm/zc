@@ -47,7 +47,7 @@
         },
         created(){
             //获取详情数据
-            mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Articleshow/',{
+            mk.http('/name/Articleshow/',{
                 id: this.$route.params.id
             },(response) => {
                 this.$set(this,'data',response.data[0])

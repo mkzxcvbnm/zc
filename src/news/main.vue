@@ -60,7 +60,7 @@
         },
         created(){
             let getlist = () => {
-                mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Article/',
+                mk.http('/name/Article/',
                 this.params,
                 (response) => {
                     if (!response.data.length){//没有数据了

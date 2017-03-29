@@ -105,7 +105,6 @@
             },
             filteredStatus1(){
                 return this.sort.filter((item) => {
-                    console.log(item)
                     return item.status == 1
                 })
             },
@@ -130,10 +129,9 @@
         beforeCreate(){
         },
         created(){
-            mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Paylist',{
+            mk.http('/name/Paylist',{
             },
             (response) => {
-                console.log(response.data)
                 this.$set(this,'data',response.data);//渲染
             })
         },

@@ -32,7 +32,7 @@
         },
         mounted(){
             this.$nextTick(() => {
-                mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/banner',{
+                mk.http('/name/banner',{
                 },(response) => {
                     this.swiperSlides = response.data;
                 })

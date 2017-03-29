@@ -55,7 +55,7 @@
                     return;
                 }
                 this.loadingToast([true])
-                mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Pay/',
+                mk.http('/name/Pay/',
                 this.params,
                 (response) => {
                     this.loadingToast([false])

@@ -41,7 +41,7 @@
         beforeCreate() {
         },
         created() {
-            mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Config/cname/wxewm/',{
+            mk.http('/name/Config/cname/wxewm/',{
             },(response) => {
                 this.$set(this,'data',response.data)
             })

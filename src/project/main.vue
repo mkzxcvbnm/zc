@@ -43,7 +43,7 @@
             'project-content-view' : project_content,
         },
         created(){
-            mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Projectshow/',{
+            mk.http('/name/Projectshow/',{
                 id: this.$route.params.id
             },(response) => {
                 response.data[0].status = 2;
@@ -59,7 +59,7 @@
             ]),
             sign(){
                 this.loadingToast([true])
-                mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Partakeadd/',{
+                mk.http('/name/Partakeadd/',{
                     id: this.$route.params.id
                 },
                 (response) => {

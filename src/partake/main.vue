@@ -29,7 +29,7 @@
         },
         created(){
             //获取小项目数据
-            mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Partakeshow',{
+            mk.http('/name/Partakeshow',{
                 id: this.$route.params.id
             },(response) => {
                 response.data[0].uid = mk.random();

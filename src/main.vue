@@ -153,7 +153,7 @@
         },
         created(){
             mk.rem();
-            mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Userinfo',{
+            mk.http('/name/Userinfo',{
             },(response) => {
                 this.SETUSERINFO(response.data[0])
                 //console.log(this.userinfo)

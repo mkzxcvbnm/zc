@@ -78,10 +78,10 @@
                     }
                 }, 1000)
                 //发送手机号获取验证码
-                mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Sms/',{
+                mk.http('/name/Sms/',{
                     tel: this.tel
                 },(response) => {
-                    console.log(response)
+                    //console.log(response)
                 })
             },
             bind(){
@@ -95,7 +95,7 @@
                 }
                 this.loadingToast([true])
                 //发送手机号获取验证码
-                mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Sms/',{
+                mk.http('/name/Sms/',{
                     tel: this.tel,
                     vcode: this.vcode,
                 },(response) => {

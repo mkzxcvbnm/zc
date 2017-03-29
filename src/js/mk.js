@@ -1,3 +1,4 @@
+let path = 'http://qingshang.fankeweb.cn/index.php/api/index'
 module.exports = {
     rem(size = 750){
         let html = document.getElementsByTagName('html')[0];
@@ -11,7 +12,7 @@ module.exports = {
         return this;
     },
     http(url, params={}, success=()=>{}, error=()=>{}){
-        this.$http.jsonp(url,{
+        this.$http.jsonp(path + url,{
             params: params
         })
         .then((response) => {

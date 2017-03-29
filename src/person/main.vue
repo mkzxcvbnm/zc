@@ -16,7 +16,7 @@
                 </div>
                 <div class="weui-cell__ft">{{userinfo.nickname}}</div>
             </div>
-            <router-link :to="{ path: '/change_phone'}" class="weui-cell weui-cell_access">
+            <router-link :to="{ path: userinfo.tel?'/change_phone':'/bind_phone' }" class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">
                     <span style="vertical-align: middle">绑定手机号</span>
                 </div>

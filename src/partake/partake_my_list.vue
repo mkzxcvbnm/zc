@@ -144,7 +144,7 @@
         },
         created(){
             let getlist = () => {
-                mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Partake/',
+                mk.http('/name/Partake/',
                 this.params,
                 (response) => {
                     if (!response.data.length) {//没有数据了
@@ -163,7 +163,6 @@
             debounced();//获取数据
 
             window.addEventListener('scroll', () => {
-                console.log(1)
                 let scrollTop = document.body.scrollTop;
                 if(scrollTop + window.innerHeight >= document.body.clientHeight) {//滚到底部
                     if (this.loading === false) {//非loading状态

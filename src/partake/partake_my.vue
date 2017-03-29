@@ -78,7 +78,7 @@
         },
         created() {
             //获取参与感言
-            mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Config/cname/recollections/',{
+            mk.http('/name/Config/cname/recollections/',{
             },(response) => {
                 this.$set(this,'recollections',response.data)
             })
@@ -92,7 +92,7 @@
             push(){
                 this.loadingToast([true])
                 //修改信息
-                mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Partakeadd/',
+                mk.http('/name/Partakeadd/',
                 this.params,
                 (response) => {
                     this.loadingToast([false])

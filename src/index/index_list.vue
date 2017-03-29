@@ -28,7 +28,7 @@
                 <li v-for="(item, index) in partake.data" :key="item" :data-index="index%partake.params.limit"><router-link :to="{ name: 'partake', params: { id: item.id } }">
                     <img class="list2_img_big" :src="item.litpic">
                     <div class="list2_r">
-                        <h2>{{item.nickname}}<span class="time"><i class="fa fa-clock-o"></i>{{item.updatetime}}</span></h2>
+                        <h2>{{item.nickname}}<span class="time"><i class="fa fa-clock-o"></i>{{item.time}}</span></h2>
                         <h3>{{item.title}}</h3>
                         <p class="ellipsis">{{item.describe}}</p>
                     </div>
@@ -80,7 +80,7 @@
             let t = this;
             this.$nextTick(() => {
                 let getlist = (type) => {
-                    mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/'+type+'',
+                    mk.http('/name/'+type+'',
                     this[type].params,
                     (response) => {
                         if (!response.data.length) {//没有数据了
@@ -88,7 +88,8 @@
                             return;
                         }
                         for(let v of response.data){
-                            v.updatetime = moment(v.updatetime*1000).format('YYYY/MM/DD');
+                            if (v.time) v.time = moment(v.time*1000).format('YYYY/MM/DD');
+                            if (v.updatetime) v.updatetime = moment(v.updatetime*1000).format('YYYY/MM/DD');
                             this[type].data.push(v);//渲染
                         }
                         this.$set(this[type], 'loading', false);//准备渲染关闭loading

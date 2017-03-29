@@ -38,7 +38,7 @@
             }
         },
         created(){
-            mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Projectshow/',{
+            mk.http('/name/Projectshow/',{
                 id: this.$route.params.id
             },(response) => {
                 this.$set(this, 'data', response.data[0]);
@@ -70,7 +70,7 @@
             },
             pay(){
                 this.loadingToast([true])
-                mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Pay',
+                mk.http('/name/Pay',
                 this.params,
                 (response) => {
                     this.loadingToast([false])
