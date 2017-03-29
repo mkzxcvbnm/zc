@@ -61,8 +61,7 @@
                     this.loadingToast([false])
                     if (response.data[0].status === 0) {
                         this.toast([true, 3000, response.data[0].mess, () => {
-                            this.ISBACK(true)
-                            this.$router.go(-1)
+                            this.$router.push({ path: '/pay'})
                         }])
                     }else{
                         this.toast([false, , response.data[0].mess])

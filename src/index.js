@@ -16,8 +16,15 @@ const router = new VueRouter({
             },
             children:[
                 {
-                    name: 'index',
+                    name: 'localhost',
                     path:'/',
+                    component: resolve => {
+                        require(['./index/main.vue'], resolve);
+                    }
+                },
+                {
+                    name: 'index',
+                    path:'/index',
                     component: resolve => {
                         require(['./index/main.vue'], resolve);
                     }
@@ -71,8 +78,57 @@ const router = new VueRouter({
                         require(['./follow/main.vue'], resolve);
                     }
                 },
+                {
+                    name: 'news',
+                    path: '/news',
+                    component: resolve => {
+                        require(['./news/main.vue'], resolve);
+                    }
+                },
+                {
+                    name: 'details',
+                    path: '/details/:id',
+                    component: resolve => {
+                        require(['./news/details.vue'], resolve);
+                    }
+                },
+                {
+                    name: 'person',
+                    path: '/person',
+                    component: resolve => {
+                        require(['./person/main.vue'], resolve);
+                    }
+                },
+                {
+                    name: 'change_phone',
+                    path: '/change_phone',
+                    component: resolve => {
+                        require(['./person/change_phone.vue'], resolve);
+                    }
+                },
+                {
+                    name: 'bind_phone',
+                    path: '/bind_phone',
+                    component: resolve => {
+                        require(['./person/bind_phone.vue'], resolve);
+                    }
+                },
+                {
+                    name: 'pay',
+                    path: '/pay',
+                    component: resolve => {
+                        require(['./pay/main.vue'], resolve);
+                    }
+                },
+                {
+                    name: 'partake_my_list',
+                    path: '/partake_my_list',
+                    component: resolve => {
+                        require(['./partake/partake_my_list.vue'], resolve);
+                    }
+                },
             ]
-        },{ path: '*', redirect: '/' }
+        },{ path: '*', redirect: '/index' }
     ],
     linkActiveClass: 'active'
 });

@@ -21,6 +21,17 @@
             </div>
         </div>
         </transition>
+
+        <transition name="fade">
+        <div class="weui-mask" v-if="dialog.open">
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd">{{dialog.text}}</div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" @click="DIALOG([false])">知道了</a>
+                </div>
+            </div>
+        </div>
+        </transition>
     </div>
 </template>
 
@@ -37,9 +48,13 @@
                 'mask',
                 'toast',
                 'loadingToast',
+                'dialog'
             ]),
         }),
         methods: {
+            ...vuex.mapMutations([
+                'DIALOG'
+            ]),
         },
     }
 </script>
@@ -48,5 +63,8 @@
     #toast .weui-icon-warn {
         font-size: 1.2rem;
         padding-bottom: .2rem;
+    }
+    .weui-toast__content {
+        line-height: 1.4;
     }
 </style>

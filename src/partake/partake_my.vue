@@ -3,9 +3,9 @@
         <header-view :title="data.title"></header-view>
         <div class="partake_top">
             <div class="weui-cells weui-cells_checkbox">
-                <label class="weui-cell weui-check__label" :for="'s'+index" @click="diymesspush(partakeData.describe)">
+                <label class="weui-cell weui-check__label" :for="'s'+index" @click="diymesspush(data.describe)">
                     <div class="weui-cell__bd">
-                        <p>{{partakeData.describe}}</p>
+                        <p>{{data.describe}}</p>
                     </div>
                     <div class="weui-cell__hd">
                         <input type="radio" class="weui-check" name="radio" :id="'s'+index" checked="checked">
@@ -36,14 +36,14 @@
                 </label>
             </div>
         </div>
-        <partake-content-view :pdata="data" :ppartakeData="partakeData" v-if="data.id"></partake-content-view>
+        <partake-content-view :pdata="data" v-if="data.id"></partake-content-view>
         <div class="partake_my_prompt center f">赶紧找小伙伴们帮你付款吧！</div>
         <div class="line"></div>
         <div class="bbtn bbtn2 translate-hidden" v-if="data.id">
-            <a href="javascript:;" class="weui-btn weui-btn_primary" v-if="partakeData.status == 0" @click="fx = true">找人帮我筹</a>
-            <router-link :to="{ name: 'partake_my_pay', params: { id: partakeData.id, title: data.title } }" class="weui-btn weui-btn_default" v-if="partakeData.status == 0">自己支持</router-link>
-            <a href="javascript:;" class="weui-btn weui-btn_warn" v-if="partakeData.status == 1">众筹完成</a>
-            <a href="javascript:;" class="weui-btn weui-btn_warn" v-if="partakeData.status == 2">众筹失败</a>
+            <a href="javascript:;" class="weui-btn weui-btn_primary" v-if="data.status == 0" @click="fx = true">找人帮我筹</a>
+            <router-link :to="{ name: 'partake_my_pay', params: { id: data.id, title: data.title } }" class="weui-btn weui-btn_default" v-if="data.status == 0">自己支持</router-link>
+            <a href="javascript:;" class="weui-btn weui-btn_warn" v-if="data.status == 1">众筹完成</a>
+            <a href="javascript:;" class="weui-btn weui-btn_warn" v-if="data.status == 2">众筹失败</a>
         </div>
         <dialog-view @text="text" :dialogOc="dialogOc"></dialog-view>
         <transition name="fade">
@@ -59,10 +59,10 @@
 
     export default {
         name: 'partake_my',
-        props: ['partakeData'],//小项目数据
+        props: ['pdata'],//小项目数据
         data(){
             return {
-                data: {},//大项目数据
+                data: this.pdata,//大项目数据
                 params: {
                     id: this.$route.params.id,//小项目id
                     diymess: '',//参与感言
@@ -77,12 +77,6 @@
             'partake-content-view': partake_content,
         },
         created() {
-            //获取大项目数据
-            mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Projectshow/',{
-                id: this.$route.params.id
-            },(response) => {
-                this.$set(this,'data',response.data[0])
-            })
             //获取参与感言
             mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Config/cname/recollections/',{
             },(response) => {

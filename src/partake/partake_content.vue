@@ -1,29 +1,23 @@
 <template>
     <div class="partake_content center">
         <div class="partake_content_top">
-            <img :src="partakeData.userinfo.portrait">
-            <p>{{partakeData.userinfo.nickname}}的众筹</p>
+            <img :src="data.userinfo.portrait">
+            <p>{{data.userinfo.nickname}}的众筹</p>
             <span>{{distime}}</span>
         </div>
-        <div class="partake_content_bar">
-            <div class="bar_box">
-                <span :style="{ left: -(1-(bar)) * 100 + '%' }"></span>
-            </div>
-            <span class="fl">完成进度：{{bar * 100}}% </span>
-            <span class="fr">还差{{data.money - partakeData.money}}元</span>
-        </div>
+        <bar-view :pdata="data"></bar-view>
         <div class="line row_r"></div>
         <div class="partake_content_c row_l row_r">
             <div>
-                <p><i class="yen">&yen;</i>{{data.money}}</p>
+                <p><i class="yen">&yen;</i>{{data.xm_money}}</p>
                 <span>目标金额</span>
             </div>
             <div>
-                <p><i class="yen">&yen;</i>{{partakeData.money}}</p>
+                <p><i class="yen">&yen;</i>{{data.money}}</p>
                 <span>已筹金额</span>
             </div>
             <div>
-                <p>{{partakeData.unum}}人</p>
+                <p>{{data.unum}}人</p>
                 <span>支持人数</span>
             </div>
         </div>
@@ -37,26 +31,20 @@
 </template>
 
 <script>
+    import bar from'./bar.vue';
+
     export default {
         name: 'partake_content',
-        props: ['pdata', 'ppartakeData'],
+        props: ['pdata'],
         data(){
             return {
+                data: this.pdata,
                 bar: 0,
             }
         },
         computed: {
-            data(){
-                return this.pdata;
-            },
-            partakeData(){
-                setTimeout(() => {
-                    this.$set(this,'bar',this.partakeData.money / this.data.money)
-                },50)
-                return this.ppartakeData;
-            },
             distime: function(){
-                let time = this.partakeData.time - new Date().getTime()/1000
+                let time = this.data.time - new Date().getTime()/1000
                 if (time < 43200) {
                     return '刚刚发起'
                 }else if(time < 86400){
@@ -69,6 +57,9 @@
                     return moment(time*1000).format('YYYY/MM/DD')
                 }
             }
+        },
+        components: {
+            'bar-view': bar
         },
     }
 </script>
@@ -93,33 +84,6 @@
         }
         p {
             font-size: .28rem;
-        }
-    }
-    .partake_content_bar {
-        float: right;
-        .bar_box {
-            width: 5.66rem;
-            height: .24rem;
-            background-color: #e5e5e5;
-            overflow: hidden;
-            border-radius: .12rem;
-            position: relative;
-            span {
-                display: block;
-                width: 5.66rem;
-                height: .24rem;
-                background-color: $green;
-                border-radius: .12rem;
-                transition: all 1s ease-out .5s;
-                position: absolute;
-                left: -100%;
-                top: 0;
-                z-index: 2;
-            }
-        }
-        span {
-            line-height: .85rem;
-            font-size: .32rem;
         }
     }
     .partake_content_c {

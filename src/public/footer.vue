@@ -1,33 +1,33 @@
 <template>
-    <div class="footer weui-tabbar">
-        <router-link :to="{ path: '/'}" class="weui-tabbar__item">
-            <span style="display: inline-block;position: relative;">
+    <div class="footer weui-tabbar translate-hidden">
+        <router-link :to="{ path: '/index'}" class="weui-tabbar__item">
+            <span>
                 <div class="ficon contain weui-tabbar__icon"></div>
                 <!-- <span class="weui-badge" style="position: absolute;top: -2px;right: -13px;">8</span> -->
             </span>
             <p class="weui-tabbar__label">首页</p>
         </router-link>
-        <router-link :to="{ path: '/1'}" class="weui-tabbar__item">
-            <span style="display: inline-block;position: relative;">
+        <router-link :to="{ path: '/news'}" class="weui-tabbar__item">
+            <span>
                 <div class="ficon contain weui-tabbar__icon"></div>
             </span>
             <p class="weui-tabbar__label">消息</p>
         </router-link>
         <a href="javascript:;" class="weui-tabbar__item" @click="follow">
-            <span style="display: inline-block;position: relative;">
+            <span>
                 <div class="ficon contain weui-tabbar__icon"></div>
             </span>
             <p class="weui-tabbar__label">关注</p>
         </a>
-        <router-link :to="{ path: '/3'}" class="weui-tabbar__item">
-            <span style="display: inline-block;position: relative;">
+        <router-link :to="{ path: '/pay'}" class="weui-tabbar__item">
+            <span>
                 <div class="ficon contain weui-tabbar__icon"></div>
                 <span class="weui-badge weui-badge_dot" style="position: absolute;top: 0;right: -6px;"></span>
             </span>
             <p class="weui-tabbar__label">订单</p>
         </router-link>
-        <router-link :to="{ path: '/4'}" class="weui-tabbar__item">
-            <span style="display: inline-block;position: relative;">
+        <router-link :to="{ path: '/person'}" class="weui-tabbar__item">
+            <span>
                 <div class="ficon contain weui-tabbar__icon"></div>
             </span>
             <p class="weui-tabbar__label">我的</p>
@@ -69,6 +69,9 @@
         background: #f7f7f7;
         border-top: 1px solid #b2b2b2;
         font-size: .2rem;
+        transition: all .3s;
+        opacity: 1;
+        visibility: visible;
         .ficon {
             width: .5rem;
             height: .5rem;
@@ -87,6 +90,10 @@
                     }
                 }
             }
+        }
+        span {
+            display: inline-block;
+            position: relative;
         }
     }
 </style>

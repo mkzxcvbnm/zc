@@ -18,6 +18,10 @@ const state = {
         open: false,
         text: '请稍后...'
     },
+    dialog: {
+        open: false,
+        text: ''
+    }
 }
 
 const getters = {
@@ -48,6 +52,9 @@ const mutations = {
     LOADINGTOAST (state, arg) {
         state.loadingToast = arg
     },
+    DIALOG (state, arg) {
+        state.dialog = arg
+    },
 }
 
 const actions = {
@@ -58,8 +65,7 @@ const actions = {
         commit('MASK', bool);
         return this;
     },
-    toast ({ commit }, arg) {
-        arg = arg || [];
+    toast ({ commit }, arg = []) {
         if (!state.toast.open) {
             setTimeout(function(){
                 commit('TOAST', {
@@ -79,11 +85,16 @@ const actions = {
             text: arg[2] || '成功',
         });
     },
-    loadingToast ({ commit }, arg) {
-        arg = arg || [];
+    loadingToast ({ commit }, arg = []) {
         commit('LOADINGTOAST', {
             open: arg[0] || false,
             text: arg[1] || '请稍后...',
+        });
+    },
+    dialog ({ commit }, arg = []) {
+        commit('DIALOG', {
+            open: arg[0] || false,
+            text: arg[1] || '',
         });
     },
 }

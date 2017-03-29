@@ -8,9 +8,9 @@
 </template>
 
 <script>
+    require('weui/dist/style/weui.min.css');
     require('normalize.css/normalize.css');
     require('./css/reset.css');
-    require('weui/dist/style/weui.min.css');
 
     import header from './public/header.vue';
     vue.component('header-view', header);
@@ -90,8 +90,45 @@
             },
         }
     })
+    //可复用过渡组件(列表)
+    vue.component('list-slide', {
+        template: `<transition-group
+            name="staggered-fade"
+            tag="ul"
+            v-bind:css="false"
+            v-on:before-enter="beforeEnter"
+            v-on:enter="enter"
+            v-on:leave="leave"
+        >
+            <slot></slot>
+        </transition-group>`,
+        data(){
+            return {
+                show: true,
+                fadeInDuration: 1000,
+                fadeOutDuration: 1000,
+                maxFadeDuration: 1500,
+                stop: false
+            }
+        },
+        methods: {
+            beforeEnter: function (el) {
+                el.style.display = 'none'
+            },
+            enter: function (el, done) {
+                setTimeout(function () {
+                    Velocity(el, "slideDown")
+                }, el.dataset.index * 50)
+            },
+            leave: function (el, done) {
+                setTimeout(function () {
+                    Velocity(el, "slideUp")
+                }, el.dataset.index * 50)
+            }
+        }
+    })
 
-    //vue.prototype.$mk = mk;
+    vue.prototype.$mk = mk;
 
     export default {
         name: 'contianer',
@@ -132,11 +169,6 @@
 
 <style lang="scss" rel="stylesheet/scss">
     @import './css/mk.scss';
-    body {
-        font: .24rem/1.14 "\5FAE\8F6F\96C5\9ED1", "arial";
-        background: #f1f1f1;
-        color: #333;
-    }
     .upper_lower_spacing {
         padding: .78rem 0 1rem;
     }
@@ -152,14 +184,17 @@
     .green {
         color: $green;
     }
+    .gray {
+        color: $gray;
+    }
     .cover {
         background-repeat: no-repeat;
-        background-position: center;
+        background-position: center center;
         background-size: cever;
     }
     .contain {
         background-repeat: no-repeat;
-        background-position: center;
+        background-position: center center;
         background-size: contain;
     }
     .center {
@@ -189,9 +224,6 @@
         width: 100%;
         transition: all .6s,opacity 1s;
     }
-    .translateX-enter-active .translate-hidden, .translateX-leave-active .translate-hidden,.translateX-back-enter-active .translate-hidden, .translateX-back-leave-active .translate-hidden {
-        display: none;
-    }
     .translateX-enter, .translateX-leave-active, .translateX-back-enter, .translateX-back-leave-active {
         opacity: 0;
     }
@@ -212,9 +244,6 @@
         position: absolute;
         width: 100%;
         transition: all .6s,opacity 1s;
-    }
-    .translateY-enter-active .translate-hidden, .translateY-leave-active .translate-hidden,.translateY-back-enter-active .translate-hidden, .translateY-back-leave-active .translate-hidden {
-        display: none;
     }
     .translateY-enter, .translateY-leave-active, .translateY-back-enter, .translateY-back-leave-active {
         opacity: 0;
@@ -249,8 +278,10 @@
         left: 0;
         z-index: 999;
         padding: .25rem .4rem;
-        transition: all .2s;
+        transition: all .3s;
         background: #fff;
+        opacity: 1;
+        visibility: visible;
         .weui-btn {
             font-size: .36rem;
             border-radius: 0;
@@ -280,14 +311,68 @@
         margin-right: -.3rem;
     }
     #app {
+        .translateX-enter .translate-hidden,
+        .translateX-leave .translate-hidden,
+        .translateX-back-enter .translate-hidden,
+        .translateX-back-leave .translate-hidden,
+        .translateY-enter .translate-hidden,
+        .translateY-leave .translate-hidden,
+        .translateY-back-enter .translate-hidden,
+        .translateY-back-leave .translate-hidden {
+            display: none;
+        }
+        .translateX-enter-active .translate-hidden,
+        .translateX-leave-active .translate-hidden,
+        .translateX-back-enter-active .translate-hidden,
+        .translateX-back-leave-active .translate-hidden,
+        .translateY-enter-active .translate-hidden,
+        .translateY-leave-active .translate-hidden,
+        .translateY-back-enter-active .translate-hidden,
+        .translateY-back-leave-active .translate-hidden  {
+            opacity: 0!important;
+            bottom: -2rem!important;
+            visibility: hidden!important;
+        }
         .weui-cells,.weui-btn {
             font-size: .32rem;
+        }
+        .weui-btn_primary {
+            background-color: $green;
+            border-radius: 0;
         }
         .swiper-pagination-bullet {
             transition: all .2s;
         }
         .swiper-pagination-bullet-active {
             background: #fff;
+        }
+        .weui-cell_access:active {
+            background-color: #fff;
+        }
+        .weui-vcode-btn {
+            border-left: 0;
+        }
+        .weui-navbar {
+            background: #fff;
+        }
+        .weui-navbar__item {
+            z-index: 2;
+            font-size: .32rem;
+            color: #000;
+            &.weui-bar__item_on {
+                background: #fff;
+                color: $green;
+                border-bottom: 3px solid $green;
+            }
+        }
+        .weui-navbar__item:after {
+            display: none;
+        }
+        .weui-navbar:after {
+            border-bottom: 2px solid #e5e5e5;
+        }
+        .weui-tab {
+            height: 1rem;
         }
     }
 </style>

@@ -1,45 +1,40 @@
 <template>
-    <div id="banner" class="banner swiper-container">
-        <div class="swiper-wrapper">
-            <template v-for="item in banner_data">
-                <div class="swiper-slide contain" :style="{ backgroundImage: 'url('+item.litpic+')' }"></div>
-            </template>
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-        <!-- Add Arrows -->
-        <!-- <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div> -->
+    <div id="banner" class="banner">
+        <swiper :options="swiperOption">
+            <swiper-slide v-for="slide in swiperSlides" :key="slide">
+                <div class="contain" :style="{ backgroundImage: 'url('+slide.litpic+')' }"></div>
+            </swiper-slide>
+            <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
     </div>
 </template>
 
 <script>
-    import Swiper from '../js/swiper.min.js';
-    import mk from '../js/mk.js';
+    import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
     export default {
         name: 'banner',
         data(){
             return {
-                banner_data: []
+                swiperOption: {
+                    pagination: '.swiper-pagination',
+                    paginationClickable: true,
+                    loop: true,
+                    observer: true,
+                    autoplay: 5000,
+                },
+                swiperSlides: []
             }
         },
-        updated(){
-            var swiper = new Swiper('.swiper-container', {
-                pagination: '.swiper-pagination',
-                // nextButton: '.swiper-button-next',
-                // prevButton: '.swiper-button-prev',
-                paginationClickable: true,
-                loop: true,
-                observer: true,
-                autoplay: 5000,
-            });
+        components: {
+            swiper,
+            swiperSlide,
         },
         mounted(){
             this.$nextTick(() => {
                 mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/banner',{
                 },(response) => {
-                    this.banner_data = response.data;
+                    this.swiperSlides = response.data;
                 })
             });
         }
@@ -47,10 +42,12 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-    @import '../css/swiper.min.css';
     .banner {
         height: 3.2rem;
         margin-bottom: .2rem;
         background: #fff;
+    }
+    .swiper-container,.banner .contain {
+        height: 100%;
     }
 </style>

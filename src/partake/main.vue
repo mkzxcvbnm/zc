@@ -1,8 +1,8 @@
 <template>
     <div class="partake">
         <template v-if="data.uid >= 0">
-            <my-view v-if="userinfo.id == data.uid" v-bind:partakeData="data"></my-view>
-            <other-view v-if="userinfo.id != data.uid" v-bind:partakeData="data"></other-view>
+            <my-view v-if="userinfo.id == data.uid" v-bind:pdata="data"></my-view>
+            <other-view v-if="userinfo.id != data.uid" v-bind:pdata="data"></other-view>
         </template>
     </div>
 </template>

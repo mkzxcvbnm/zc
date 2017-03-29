@@ -7,20 +7,20 @@
                 <div class="weui-cells weui-cells_checkbox">
                     <label class="weui-cell weui-check__label" :for="'s'+index">
                         <div class="weui-cell__bd">
-                            <p>{{partakeData.describe}}</p>
+                            <p>{{data.describe}}</p>
                         </div>
                     </label>
                 </div>
             </div>
-            <partake-content-view :pdata="data" :ppartakeData="partakeData" v-if="data.id"></partake-content-view>
-            <project-content-view :pdata="data" v-if="data.id"></project-content-view>
+            <partake-content-view :pdata="data" v-if="data.id"></partake-content-view>
+            <project-content-view :pid="data.id" v-if="data.id"></project-content-view>
             <div class="bbtn bbtn2 translate-hidden" v-if="data.id">
                 <a href="javascript:;" class="weui-btn weui-btn_primary" @click="partake_pay_op = true">给他支持</a>
-                <!-- <router-link :to="{ name: 'partake_pay', params: { id: partakeData.id } }" class="weui-btn weui-btn_primary">给他支持</router-link> -->
+                <!-- <router-link :to="{ name: 'partake_pay', params: { id: data.id } }" class="weui-btn weui-btn_primary">给他支持</router-link> -->
                 <router-link :to="{ name: 'project', params: { id: data.id } }" class="weui-btn weui-btn_default" v-if="data.id">我也要玩</router-link>
             </div>
         </div>
-        <partake-pay-view :pdata="partakeData" @close="closepay" v-if="partake_pay_op"></partake-pay-view>
+        <partake-pay-view :pdata="data" @close="closepay" v-if="partake_pay_op"></partake-pay-view>
         </transition>
     </div>
 </template>
@@ -32,10 +32,10 @@
 
     export default {
         name: 'partake_other',
-        props: ['partakeData'],//小项目数据
+        props: ['pdata'],//小项目数据
         data(){
             return {
-                data: {},
+                data: this.pdata,
                 params: {//提交接口数据
                     id: this.$route.params.id,
                     diymess: ''
@@ -49,12 +49,6 @@
             'partake-pay-view' : partake_pay,
         },
         created() {
-            //获取大项目数据
-            mk.http('http://qingshang.fankeweb.cn/index.php/api/index/name/Projectshow/',{
-                id: this.$route.params.id
-            },(response) => {
-                this.$set(this,'data',response.data[0])
-            })
         },
         methods: {
             closepay(){
@@ -83,10 +77,10 @@
             line-height: .4rem;
         }
         .weui-check__label {
-          -webkit-tap-highlight-color: transparent;
+            -webkit-tap-highlight-color: transparent;
         }
         .weui-check__label:active {
-          background-color: transparent;
+            background-color: transparent;
         }
         .weui-cells_checkbox .weui-icon-checked:before {
             color: #fff;

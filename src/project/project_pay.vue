@@ -4,7 +4,7 @@
         <div class="pay_box">
             <div class="pay_img contain" :style="{ backgroundImage: 'url('+data.litpic+')' }"></div>
             <div class="pay_content">
-                <h2>{{data.title}}</h2>
+                <h2 class="ellipsis">{{data.title}}</h2>
                 <p><i class="yen">&yen;</i>{{data.money}} x 1</p>
             </div>
             <div class="pay_num">
@@ -107,7 +107,6 @@
             height: .4rem;
             font-weight: normal;
             margin-bottom: .25rem;
-            @include ellipsis;
             font-size: .32rem;
         }
     }

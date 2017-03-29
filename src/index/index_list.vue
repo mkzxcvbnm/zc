@@ -8,13 +8,13 @@
         </div>
         <transition name="translateX" mode="out-in">
         <ul class="list center" v-if="currentView == 'project'" key="project">
-            <template v-for="item in project.data">
-                <li><router-link :to="{ name: 'project', params: { id: item.id } }">
+            <list-slide>
+                <li v-for="(item, index) in project.data" :key="item" :data-index="indexindex%project.params.limit"><router-link :to="{ name: 'project', params: { id: item.id } }">
                     <div class="img contain" :style="{backgroundImage: 'url('+item.litpic+')'}"></div>
-                    <h3>{{item.title}}<span class="time"><i class="fa fa-clock-o"></i>{{item.updatetime}}</span></h3>
+                    <h3><span class="fl ellipsis">{{item.title}}</span><span class="time"><i class="fa fa-clock-o"></i>{{item.updatetime}}</span></h3>
                     <!-- <p><span class="time"><i class="fa fa-clock-o"></i>{{item.updatetime}}</span><span class="money">¥ {{item.money}}</span></p> -->
                 </router-link></li>
-            </template>
+            </list-slide>
             <div class="weui-loadmore" v-if="project.loading">
                 <i class="weui-loading"></i>
                 <span class="weui-loadmore__tips">正在加载</span>
@@ -24,8 +24,8 @@
             </div>
         </ul>
         <ul class="list center" v-else key="partake">
-            <template v-for="item in partake.data">
-                <li><router-link :to="{ name: 'partake', params: { id: item.id } }">
+            <list-slide>
+                <li v-for="(item, index) in partake.data" :key="item" :data-index="index%partake.params.limit"><router-link :to="{ name: 'partake', params: { id: item.id } }">
                     <img class="list2_img_big" :src="item.litpic">
                     <div class="list2_r">
                         <h2>{{item.title}}<span class="time"><i class="fa fa-clock-o"></i>{{item.updatetime}}</span></h2>
@@ -37,7 +37,7 @@
                     </dl>
                     <span class="unum">已有{{item.unum}}人参与</span>
                 </router-link></li>
-            </template>
+            </list-slide>
             <div class="weui-loadmore" v-if="partake.loading">
                 <i class="weui-loading"></i>
                 <span class="weui-loadmore__tips">正在加载</span>
@@ -87,23 +87,25 @@
                             this[type].loading = 0;
                             return;
                         }
-                        this.$set(this[type], 'loading', false);//准备渲染关闭loading
                         for(let v of response.data){
                             v.updatetime = moment(v.updatetime*1000).format('YYYY/MM/DD');
                             this[type].data.push(v);//渲染
                         }
+                        this.$set(this[type], 'loading', false);//准备渲染关闭loading
                         this.$set(this[type].params, 'pages', this[type].params.pages + 1);//页数+1
                     })
                 }
+
                 getlist('project');//最新项目
                 getlist('partake');//梦想清单
+                let debounced = _.debounce(getlist, 1500);
 
                 window.addEventListener('scroll', () => {
                     let scrollTop = document.body.scrollTop;
                     if(scrollTop + window.innerHeight >= document.body.clientHeight) {//滚到底部
                         if (this[this.currentView].loading === false) {//非loading状态
                             this.$set(this[this.currentView], 'loading', true);//显示loading
-                            getlist(this.currentView)//获取当前激活选项卡对应的数据
+                            debounced(this.currentView)//获取当前激活选项卡对应的数据
                         }
                     }
                 });
@@ -154,7 +156,11 @@
         h3 {
             font-size: .28rem;
             font-weight: normal;
-            margin: .2rem 0;
+            margin-top: .2rem;
+            overflow: hidden;
+            .fl {
+                width: 5rem;
+            }
             .time {
                 float: right;
             }

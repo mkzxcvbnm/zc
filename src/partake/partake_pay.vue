@@ -96,7 +96,8 @@
                     this.loadingToast([false])
                     if (response.data[0].status === 1) {
                         this.toast([true, 3000, response.data[0].mess, () => {
-                            this.close()
+                            // this.close()
+                            this.$router.push({ path: '/pay'})
                         }])
                     }else{
                         this.toast([false, , response.data[0].mess])

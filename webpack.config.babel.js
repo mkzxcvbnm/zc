@@ -11,8 +11,9 @@ module.exports = {
         main: path.resolve(SRC_PATH, 'index.js'),
         common: ['vue', 'vue-router', 'vuex'],
         jquery: ['jquery'],
-        swiper: path.resolve(SRC_PATH, 'js/swiper.min.js'),
-        moment: ['moment']
+        velocity: ['velocity-animate'],
+        moment: ['moment'],
+        lodash: ['lodash'],
     },
     output: {
         filename: '[name]-[hash].js',
@@ -95,6 +96,8 @@ module.exports = {
             vue: 'vue',
             vuex: 'vuex',
             mk: path.resolve(SRC_PATH, 'js/mk.js'),
+            velocity: 'velocity',
+            _: 'lodash',
         }),
         //将公共代码抽离出来合并为一个文件
         new webpack.optimize.CommonsChunkPlugin({

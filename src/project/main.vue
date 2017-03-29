@@ -10,14 +10,17 @@
                 <i class="yen">&yen;</i>{{data.money}}
             </div>
         </div>
-        <project-content-view :pdata="data" v-if="data.id"></project-content-view>
+        <project-content-view :pid="data.id" v-if="data.id"></project-content-view>
         <div class="bbtn translate-hidden">
             <a href="javascript:;" class="weui-btn weui-btn_warn" v-if="data.status == 1">活动未开始</a>
             <template v-if="data.status == 2">
                 <a @click="sign" href="javascript:;" class="weui-btn weui-btn_primary" v-if="!data.Partake">我要报名</a>
-                <router-link :to="{ name: 'partake', params: { id: data.Partake } }" class="weui-btn weui-btn_primary" v-else>查看详情</router-link>
+                <router-link :to="{ name: 'partake', params: { id: data.Partake } }" class="weui-btn weui-btn_primary" v-else>我的众筹</router-link>
             </template>
-            <router-link :to="{ name: 'project_order', params: { id: data.id } }" class="weui-btn weui-btn_primary" v-if="data.status == 3">立即支付</router-link>
+            <template v-if="data.status == 3">
+                <router-link :to="{ name: 'project_order', params: { id: data.id } }" class="weui-btn weui-btn_primary" v-if="!data.Partake">立即支付</router-link>
+                <router-link :to="{ name: 'partake', params: { id: data.Partake } }" class="weui-btn weui-btn_primary" v-else>报名成功</router-link>
+            </template>
             <a href="javascript:;" class="weui-btn weui-btn_warn" v-if="data.status == 4">活动结束</a>
         </div>
     </div>
@@ -35,13 +38,6 @@
             }
         },
         computed: {
-            tab_panel: function(){
-                switch (this.currentView) {
-                    case 1: return this.data.content
-                    case 2: return this.data.content2
-                    case 3: return this.data.content3
-                }
-            }
         },
         components: {
             'project-content-view' : project_content,

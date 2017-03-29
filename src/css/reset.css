@@ -1,7 +1,14 @@
 * {
-	-webkit-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+}
+body {
+    font-size: .24rem;
+    line-height: 1.14;
+    font-family: "\5FAE\8F6F\96C5\9ED1", "arial";
+    background: #f1f1f1;
+    color: #333;
 }
 ul {
     list-style:none;

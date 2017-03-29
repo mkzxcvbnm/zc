@@ -41,17 +41,25 @@ npm run build   (-p 压缩)
     │
     ├── img                     # 图片资源
     │
-    ├── index                   # 首页模块
-    │
     ├── js                      # 脚本代码
+    │
+    ├── public                  # 公共模块
+    │
+    ├── vuex                    # vue状态管理
+    │
+    ├── index                   # 首页模块
     │
     ├── partake                 # 众筹项目模块
     │
     ├── project                 # 项目模块
     │
-    ├── public                  # 公共模块
+    ├── follow                  # 关注模块
     │
-    ├── vuex                    # vue状态管理
+    ├── news                    # 消息模块
+    │
+    ├── pay                     # 我的订单
+    │
+    ├── person                  # 个人中心
     │
     ├── demo.vue                # vue单文件组件例子
     │
