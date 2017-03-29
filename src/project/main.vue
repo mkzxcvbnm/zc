@@ -1,6 +1,6 @@
 <template>
     <div class="project upper_spacing upper_lower">
-        <header-view :title="data.title"></header-view>
+        <header-view :title="data.title" ref="header"></header-view>
         <div class="project_top f">
             <div class="project_img">
                 <img :src="data.litpic">
@@ -10,7 +10,7 @@
                 <i class="yen">&yen;</i>{{data.money}}
             </div>
         </div>
-        <project-content-view :pid="data.id" v-if="data.id"></project-content-view>
+        <project-content-view :pid="data.id" v-if="data.id" :prefs="$refs"></project-content-view>
         <div class="bbtn translate-hidden">
             <a href="javascript:;" class="weui-btn weui-btn_warn" v-if="data.status == 1">活动未开始</a>
             <template v-if="data.status == 2">
@@ -46,9 +46,9 @@
             mk.http('/name/Projectshow/',{
                 id: this.$route.params.id
             },(response) => {
-                response.data[0].status = 2;
-                response.data[0].Partake = 0;
-                this.$set(this,'data',response.data[0])
+                // response.data.status = 2;
+                // response.data.Partake = 0;
+                this.$set(this,'data',response.data)
             })
         },
         methods: {

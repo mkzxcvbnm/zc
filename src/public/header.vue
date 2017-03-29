@@ -1,7 +1,7 @@
 <template>
-    <div class="header">
+    <div class="header" ref="header">
         <a v-if="back_show" @click="back" class="back" href="javascript:;"><i class="fa fa-angle-left"></i></a>
-        <span>{{this.tit}}</span>
+        <span class="ellipsis">{{this.tit}}</span>
     </div>
 </template>
 
@@ -59,6 +59,11 @@
         right: 0;
         width: 100%;
         z-index: 999;
+        span {
+            display: block;
+            padding: 0 1rem;
+            height: 100%;
+        }
     }
     .back {
         font-size: .72rem;

@@ -248,16 +248,16 @@
         opacity: 0;
     }
     .translateY-enter {
-        transform: translateY(100%);
+        transform: translateY(200%);
     }
     .translateY-leave-active {
         transform: translateY(-100%);
     }
     .translateY-back-enter {
-        transform: translateY(-100%);
+        transform: translateY(-200%);
     }
     .translateY-back-leave-active {
-        transform: translateY(100%);
+        transform: translateY(200%);
     }
 
     .fade-enter-active, .fade-leave-active {

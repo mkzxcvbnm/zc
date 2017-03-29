@@ -1,6 +1,6 @@
 <template>
     <div class="partake_other upper_spacing upper_lower">
-        <header-view :title="data.title" @modeclose="closepay" :modeback="partake_pay_op"></header-view>
+        <header-view ref="header" :title="data.title" @modeclose="closepay" :modeback="partake_pay_op"></header-view>
         <transition name="translateY">
         <div v-if="!partake_pay_op">
             <div class="partake_top">
@@ -13,7 +13,19 @@
                 </div>
             </div>
             <partake-content-view :pdata="data" v-if="data.id"></partake-content-view>
-            <project-content-view :pid="data.id" v-if="data.id"></project-content-view>
+            <div class="partake_project_content">
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell weui-cell_switch">
+                        <div class="weui-cell__bd">活动详情介绍</div>
+                        <div class="weui-cell__ft">
+                            <input class="weui-switch" type="checkbox" v-model="ppc">
+                        </div>
+                    </div>
+                </div>
+                <transition name="fade">
+                <project-content-view v-show="ppc" :pid="data.id" v-if="data.id" :prefs="$refs"></project-content-view>
+                </transition>
+            </div>
             <div class="bbtn bbtn2 translate-hidden" v-if="data.id">
                 <a href="javascript:;" class="weui-btn weui-btn_primary" @click="partake_pay_op = true">给他支持</a>
                 <!-- <router-link :to="{ name: 'partake_pay', params: { id: data.id } }" class="weui-btn weui-btn_primary">给他支持</router-link> -->
@@ -41,6 +53,7 @@
                     diymess: ''
                 },
                 partake_pay_op: false,//给他支持
+                ppc: true,//活动详情介绍开关
             }
         },
         components: {

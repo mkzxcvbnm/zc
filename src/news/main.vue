@@ -6,7 +6,7 @@
                 <li v-for="(item, index) in data" class="weui-cell" :key="item" :data-index="index%params.limit"><router-link :to="{ name: 'details', params: { id: item.id } }">
                     <div class="list2_r">
                         <h2>{{item.title}}</h2>
-                        <p>{{item.content}}</p>
+                        <p>{{item.describe}}</p>
                         <span class="time">{{item.time}}</span>
                     </div>
                 </router-link></li>
