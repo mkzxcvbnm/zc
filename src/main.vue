@@ -1,6 +1,6 @@
 <template>
     <div class="contianer">
-         <mktransition>
+        <mktransition>
             <router-view></router-view>
         </mktransition>
         <tool-view></tool-view>
@@ -8,7 +8,6 @@
 </template>
 
 <script>
-    require('weui/dist/style/weui.min.css');
     require('normalize.css/normalize.css');
     require('./css/reset.css');
 
@@ -189,12 +188,12 @@
     }
     .cover {
         background-repeat: no-repeat;
-        background-position: center center;
+        background-position: center;
         background-size: cever;
     }
     .contain {
         background-repeat: no-repeat;
-        background-position: center center;
+        background-position: center;
         background-size: contain;
     }
     .center {

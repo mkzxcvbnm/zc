@@ -14,6 +14,9 @@ module.exports = {
         velocity: ['velocity-animate'],
         moment: ['moment'],
         lodash: ['lodash'],
+        swiper: ['swiper'],
+        weui: ['weui'],
+        font: ['font-awesome-webpack'],
     },
     output: {
         filename: '[name].js',
@@ -97,7 +100,7 @@ module.exports = {
         }),
         //将公共代码抽离出来合并为一个文件
         new webpack.optimize.CommonsChunkPlugin({
-            name: ['common', 'jquery', 'moment', 'swiper'],
+            name: ['common', 'jquery', 'moment', 'swiper', 'velocity', 'lodash', 'weui', 'font'],
             minChunks: Infinity
         }),
         new webpack.HotModuleReplacementPlugin(),//开启代码热替换

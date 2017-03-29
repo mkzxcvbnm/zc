@@ -28,9 +28,9 @@
                 <li v-for="(item, index) in partake.data" :key="item" :data-index="index%partake.params.limit"><router-link :to="{ name: 'partake', params: { id: item.id } }">
                     <img class="list2_img_big" :src="item.litpic">
                     <div class="list2_r">
-                        <h2>{{item.title}}<span class="time"><i class="fa fa-clock-o"></i>{{item.updatetime}}</span></h2>
-                        <h3>{{item.describe}}</h3>
-                        <p class="ellipsis">{{item.content}}</p>
+                        <h2>{{item.nickname}}<span class="time"><i class="fa fa-clock-o"></i>{{item.updatetime}}</span></h2>
+                        <h3>{{item.title}}</h3>
+                        <p class="ellipsis">{{item.describe}}</p>
                     </div>
                     <dl>
                         <dd v-for="upic in item.unum_litpic"><img :src="upic"></dd>

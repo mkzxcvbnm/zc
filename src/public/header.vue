@@ -6,7 +6,6 @@
 </template>
 
 <script>
-    require('font-awesome-webpack');
     export default {
         name: 'header',
         props: ['title', 'modeback'],
