@@ -26,6 +26,9 @@
                 <project-content-view v-show="ppc" :pid="data.id" v-if="data.id" :prefs="$refs"></project-content-view>
                 </transition>
             </div>
+            <transition name="fade">
+            <message-view v-if="data.id" :pdata="data"></message-view>
+            </transition>
             <div class="bbtn bbtn2 translate-hidden" v-if="data.id">
                 <a href="javascript:;" class="weui-btn weui-btn_primary" @click="partake_pay_op = true">给他支持</a>
                 <!-- <router-link :to="{ name: 'partake_pay', params: { id: data.id } }" class="weui-btn weui-btn_primary">给他支持</router-link> -->
@@ -41,6 +44,7 @@
     import partake_content from './partake_content.vue';
     import project_content from '../project/project_content.vue';
     import partake_pay from './partake_pay.vue';
+    import message from './message.vue';
 
     export default {
         name: 'partake_other',
@@ -60,6 +64,7 @@
             'partake-content-view': partake_content,
             'project-content-view' : project_content,
             'partake-pay-view' : partake_pay,
+            'message-view' : message,
         },
         created() {
         },

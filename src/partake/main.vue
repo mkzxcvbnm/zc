@@ -32,8 +32,8 @@
             mk.http('/name/Partakeshow',{
                 id: this.$route.params.id
             },(response) => {
-                response.data[0].uid = mk.random();
-                this.$set(this,'data',response.data[0])
+                response.data.uid = mk.random();
+                this.$set(this,'data',response.data)
             })
         },
     }

@@ -39,6 +39,9 @@
         <partake-content-view :pdata="data" v-if="data.id"></partake-content-view>
         <div class="partake_my_prompt center f">赶紧找小伙伴们帮你付款吧！</div>
         <div class="line"></div>
+        <transition name="fade">
+        <message-view v-if="data.id" :pdata="data"></message-view>
+        </transition>
         <div class="bbtn bbtn2 translate-hidden" v-if="data.id">
             <a href="javascript:;" class="weui-btn weui-btn_primary" v-if="data.status == 0" @click="fx = true">找人帮我筹</a>
             <router-link :to="{ name: 'partake_my_pay', params: { id: data.id, title: data.title } }" class="weui-btn weui-btn_default" v-if="data.status == 0">自己支持</router-link>
@@ -56,6 +59,7 @@
     let moment = require('moment');
     import dialog from './dialog.vue';
     import partake_content from './partake_content.vue';
+    import message from './message.vue';
 
     export default {
         name: 'partake_my',
@@ -75,6 +79,7 @@
         components: {
             'dialog-view': dialog,
             'partake-content-view': partake_content,
+            'message-view' : message,
         },
         created() {
             //获取参与感言
@@ -89,7 +94,7 @@
                 'toast',
                 'loadingToast',
             ]),
-            push(){
+            push(text){
                 this.loadingToast([true])
                 //修改信息
                 mk.http('/name/Partakeadd/',
@@ -98,7 +103,8 @@
                     this.loadingToast([false])
                     if (response.data[0].status === 0) {
                         this.toast([true, , response.data[0].mess, () => {
-                            this.$router.go(0)
+                            //不刷新修改信息
+                            this.$set(this.data, 'describe', text)
                         }])
                     }else{
                         this.toast([false, , response.data[0].mess])
@@ -111,12 +117,12 @@
             },
             diymesspush(text){
                 this.params.diymess = text;
-                this.push();
+                this.push(text);
             },
             text(text){
                 if (text != undefined) {
                     this.params.diymess = text;
-                    this.push();
+                    this.push(text);
                 }
                 this.dialogOc = false
             }

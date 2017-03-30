@@ -41,7 +41,7 @@
             mk.http('/name/Projectshow/',{
                 id: this.$route.params.id
             },(response) => {
-                this.$set(this, 'data', response.data[0]);
+                this.$set(this, 'data', response.data);
             })
         },
         methods: {

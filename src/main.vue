@@ -93,7 +93,7 @@
     vue.component('list-slide', {
         template: `<transition-group
             name="staggered-fade"
-            tag="ul"
+            :tag="default_tag||'ul'"
             v-bind:css="false"
             v-on:before-enter="beforeEnter"
             v-on:enter="enter"
@@ -101,13 +101,15 @@
         >
             <slot></slot>
         </transition-group>`,
+        props: ['tag'],
         data(){
             return {
                 show: true,
                 fadeInDuration: 1000,
                 fadeOutDuration: 1000,
                 maxFadeDuration: 1500,
-                stop: false
+                stop: false,
+                default_tag: this.tag,
             }
         },
         methods: {
