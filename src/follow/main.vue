@@ -17,7 +17,7 @@
         name: 'follow',
         data(){
             return {
-                data: {}
+                data: ''
             }
         },
         methods: {
