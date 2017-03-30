@@ -73,7 +73,8 @@
                         limit: 5,
                     },
                     loading: true
-                }
+                },
+                debounced: _.debounce(this.getlist, 1500),//防止短时间内多次调用接口
             }
         },
         methods: {
@@ -93,9 +94,6 @@
                     this.$set(this[type], 'loading', false);//准备渲染关闭loading
                     this.$set(this[type].params, 'pages', this[type].params.pages + 1);//页数+1
                 })
-            },
-            debounced(){
-                return _.debounce(this.getlist, 1500);
             },
             scroll(){
                 let scrollTop = document.body.scrollTop;

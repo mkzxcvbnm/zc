@@ -36,7 +36,8 @@
                     pages: 1,//获取页数
                     limit: 8,//每页数据长度
                 },
-                loading: true//读取状态
+                loading: true,//读取状态
+                debounced: _.debounce(this.getlist, 1500),//防止短时间内多次调用接口
             }
         },
         methods: {
@@ -55,9 +56,6 @@
                     this.$set(this, 'loading', false);//准备渲染关闭loading
                     this.$set(this.params, 'pages', this.params.pages + 1);//页数+1
                 })
-            },
-            debounced(){
-                return _.debounce(this.getlist, 1500);
             },
             scroll(){
                 let scrollTop = document.body.scrollTop;

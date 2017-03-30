@@ -53,6 +53,7 @@
                 },
                 loading: true,//读取状态
                 dialogOc: false,//留言弹窗开关
+                debounced: _.debounce(this.getlist, 1500),//防止短时间内多次调用接口
             }
         },
         computed: vuex.mapState({
@@ -124,9 +125,6 @@
                     this.$set(this, 'loading', false);//准备渲染关闭loading
                     this.$set(this.params, 'pages', this.params.pages + 1);//页数+1
                 })
-            },
-            debounced(){
-                return _.debounce(this.getlist, 1500);
             },
             scroll(){
                 let scrollTop = document.body.scrollTop;
