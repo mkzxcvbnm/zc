@@ -13,10 +13,6 @@
 
     export default {
         name: 'index',
-        data(){
-            return {
-            }
-        },
         components: {
             'banner-view' : banner,
             'list-view' : list,

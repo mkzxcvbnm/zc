@@ -33,7 +33,6 @@
 <script>
     export default {
         name: 'bind_phone',
-        props: [],
         data(){
             return {
                 tel: '',//电话号码
@@ -45,13 +44,7 @@
             ...vuex.mapState([
                 'userinfo'
             ]),
-            ...vuex.mapGetters([
-            ]),
         }),
-        components: {
-        },
-        watch: {
-        },
         methods: {
             ...vuex.mapMutations([
                 'ISBACK'
@@ -114,22 +107,6 @@
                     this.toast([false, , response])
                 })
             }
-        },
-        beforeCreate(){
-        },
-        created(){
-        },
-        beforeMount(){
-        },
-        mounted(){
-            this.$nextTick(() => {
-            });
-        },
-        beforeUpdate(){
-        },
-        updated(){
-        },
-        beforeDestroy(){
         },
     }
 </script>

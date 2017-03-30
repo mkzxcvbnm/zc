@@ -50,7 +50,7 @@
             mk.http('/name/Payshow/',{
                 id: this.$route.params.id
             },(response) => {
-                this.$set(this, 'data', response.data[0]);
+                this.$set(this, 'data', response.data);
                 this.$set(this.params, 'pay_num', this.data.num);
             })
         },
@@ -71,8 +71,7 @@
                     this.loadingToast([false])
                     if (response.data[0].status === 0) {
                         this.toast([true, 3000, response.data[0].mess, () => {
-                            this.ISBACK(true)
-                            this.$router.replace('/')
+                            this.$router.replace('/pay')
                         }])
                     }else{
                         this.toast([false, , response.data[0].mess])

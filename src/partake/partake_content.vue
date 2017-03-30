@@ -1,8 +1,8 @@
 <template>
     <div class="partake_content center">
         <div class="partake_content_top">
-            <img :src="data.userinfo.portrait">
-            <p>{{data.userinfo.nickname}}的众筹</p>
+            <img :src="!data.userinfo?'':data.userinfo.portrait">
+            <p v-if="data.userinfo">{{data.userinfo.nickname}}的众筹</p>
             <span>{{distime}}</span>
         </div>
         <bar-view :pdata="data"></bar-view>

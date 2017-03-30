@@ -59,17 +59,11 @@
             ...vuex.mapState([
                 'userinfo'//个人信息
             ]),
-            ...vuex.mapGetters([
-            ]),
         }),
         components: {
             'dialog-view': dialog,
         },
-        watch: {
-        },
         methods: {
-            ...vuex.mapMutations([
-            ]),
             ...vuex.mapActions([
                 'mask',
                 'toast',
@@ -115,11 +109,7 @@
                     this.toast([false, , response])
                 })
             },
-        },
-        beforeCreate(){
-        },
-        created(){
-            let getlist = () => {
+            getlist(){
                 //获取留言列表
                 mk.http('/name/Commentlist/',
                 this.params,
@@ -134,33 +124,27 @@
                     this.$set(this, 'loading', false);//准备渲染关闭loading
                     this.$set(this.params, 'pages', this.params.pages + 1);//页数+1
                 })
-            }
-
-            let debounced = _.debounce(getlist, 1500);
-            debounced();//获取数据
-            
-            window.addEventListener('scroll', () => {
+            },
+            debounced(){
+                return _.debounce(this.getlist, 1500);
+            },
+            scroll(){
                 let scrollTop = document.body.scrollTop;
                 if(scrollTop + window.innerHeight >= document.body.clientHeight) {//滚到底部
                     if (this.loading === false) {//非loading状态
                         this.$set(this, 'loading', true);//显示loading
-                        debounced()//获取数据
+                        this.debounced()//获取数据
                     }
                 }
-            });
-        },
-        beforeMount(){
+            }
         },
         mounted(){
-            this.$nextTick(() => {
-            });
-        },
-        beforeUpdate(){
-        },
-        updated(){
+            this.getlist();//获取数据
+            window.addEventListener('scroll', this.scroll);
         },
         beforeDestroy(){
-        },
+            window.removeEventListener('scroll', this.scroll);
+        }
     }
 </script>
 
@@ -168,7 +152,7 @@
     @import '../css/mk.scss';
     .message_num {
         p {
-            padding-bottom: .2rem;
+            padding: .2rem 0;
         }
     }
     .message {

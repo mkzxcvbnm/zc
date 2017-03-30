@@ -45,8 +45,6 @@
             })
         },
         methods: {
-            ...vuex.mapMutations([
-            ]),
             ...vuex.mapActions([
                 'mask',
                 'toast',

@@ -59,7 +59,7 @@
             //获取支付默认留言内容
             mk.http('/name/Config/cname/paycontent',{
             },(response) => {
-                this.$set(this.params,'comment',response.data[0])
+                this.$set(this.params,'comment',response.data.replace(/(^\")|(\"*$)/g, ""))
             })
             //获取快捷支付金额
             mk.http('/name/Config/cname/paymoney',{
@@ -84,29 +84,80 @@
             close(){
                 this.$emit('close')
             },
+            jsApiCall(v){
+                WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest',{
+                        "appId":v.appId,
+                        "nonceStr":v.nonceStr,
+                        "package":v.package,
+                        "paySign":v.paySign,
+                        "signType":v.signType,
+                        "timeStamp":v.timeStamp
+                    },(res) =>{
+                        if(res.err_msg == 'get_brand_wcpay_request:ok'){
+                            this.loadingToast([false])
+                            this.toast([true, 3000, '恭喜您，支付成功!更新可能会有5～10秒延迟!', () => {
+                                this.$router.push({ path: '/pay'})
+                            }])
+                        }else{
+                            this.loadingToast([false])
+                            this.toast([false, , JSON.stringify(res)])
+                        }
+                    }
+                );
+            },
+            callpay(v){
+                if (typeof WeixinJSBridge == "undefined"){
+                    if( document.addEventListener ){
+                        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                    }else if (document.attachEvent){
+                        document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                    }
+                }else{
+                    this.jsApiCall(v);
+                }
+            },
             pay(){
                 if (this.params.pay_num == '') {
                     this.toast([false, , '请输入金额']);
                     return;
                 }
                 this.loadingToast([true])
-                mk.http('/name/Payzc',
-                this.params,
-                (response) => {
-                    this.loadingToast([false])
-                    if (response.data[0].status === 1) {
-                        this.toast([true, 3000, response.data[0].mess, () => {
-                            // this.close()
-                            this.$router.push({ path: '/pay'})
-                        }])
-                    }else{
-                        this.toast([false, , response.data[0].mess])
+                this.$http.jsonp('http://qingshang.fankeweb.cn/index.php/pay/index',{
+                    params: {
+                        number: 1,
+                        firsttel: 1
                     }
-                },
-                (response) => {
+                }).then((response) => {
+                    if(response['error'] == 0){
+                        this.loadingToast([false])
+                        this.toast([false, , response['msg']])
+                    }else{
+                        callpay(response['parameters']);
+                    }
+                }).catch((response) => {
                     this.loadingToast([false])
                     this.toast([false, , response])
+                    console.log(response)
                 })
+                // mk.http('/name/Payzc',
+                // this.params,
+                // (response) => {
+                //     this.loadingToast([false])
+                //     if (response.data[0].status === 1) {
+                //         this.toast([true, 3000, response.data[0].mess, () => {
+                //             // this.close()
+                //             this.$router.push({ path: '/pay'})
+                //         }])
+                //     }else{
+                //         this.toast([false, , response.data[0].mess])
+                //     }
+                // },
+                // (response) => {
+                //     this.loadingToast([false])
+                //     this.toast([false, , response])
+                // })
             },
         }
     }

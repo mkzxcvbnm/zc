@@ -15,19 +15,10 @@
 <script>
     export default {
         name: 'follow',
-        props: [],
         data(){
             return {
                 data: {}
             }
-        },
-        computed: vuex.mapState({
-            ...vuex.mapState([
-            ]),
-            ...vuex.mapGetters([
-            ]),
-        }),
-        watch: {
         },
         methods: {
             ...vuex.mapMutations([
@@ -38,25 +29,11 @@
                 this.$router.go(-1)
             }
         },
-        beforeCreate() {
-        },
         created() {
             mk.http('/name/Config/cname/wxewm/',{
             },(response) => {
-                this.$set(this,'data',response.data)
+                this.$set(this,'data',response.data.replace(/(^\")|(\"*$)/g, ""))
             })
-        },
-        beforeMount() {
-        },
-        mounted(){
-            this.$nextTick(() => {
-            });
-        },
-        beforeUpdate() {
-        },
-        updated(){
-        },
-        beforeDestroy() {
         },
     }
 </script>

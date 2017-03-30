@@ -85,7 +85,6 @@
 
     export default {
         name: 'partake_my_list',
-        props: [],
         data(){
             return {
                 data: [],//列表队列
@@ -125,13 +124,7 @@
         components: {
             'bar-view': bar
         },
-        watch: {
-        },
         methods: {
-            ...vuex.mapMutations([
-            ]),
-            ...vuex.mapActions([
-            ]),
             type_font(item){
                 switch (item.status) {
                     case 0: return '进行中'
@@ -139,11 +132,7 @@
                     case 2: return '失败'
                 }
             },
-        },
-        beforeCreate(){
-        },
-        created(){
-            let getlist = () => {
+            getlist(){
                 mk.http('/name/Partake/',
                 this.params,
                 (response) => {
@@ -157,33 +146,27 @@
                     this.$set(this, 'loading', false);//准备渲染关闭loading
                     this.$set(this.params, 'pages', this.params.pages + 1);//页数+1
                 })
-            }
-            
-            let debounced = _.debounce(getlist, 1500);
-            debounced();//获取数据
-
-            window.addEventListener('scroll', () => {
+            },
+            debounced(){
+                return _.debounce(this.getlist, 1500);
+            },
+            scroll(){
                 let scrollTop = document.body.scrollTop;
                 if(scrollTop + window.innerHeight >= document.body.clientHeight) {//滚到底部
                     if (this.loading === false) {//非loading状态
                         this.$set(this, 'loading', true);//显示loading
-                        debounced()//获取数据 
+                        this.debounced()//获取数据 
                     }
                 }
-            });
-        },
-        beforeMount(){
+            }
         },
         mounted(){
-            this.$nextTick(() => {
-            });
-        },
-        beforeUpdate(){
-        },
-        updated(){
+            this.getlist();//获取数据
+            window.addEventListener('scroll', this.scroll);
         },
         beforeDestroy(){
-        },
+            window.removeEventListener('scroll', this.scroll);
+        }
     }
 </script>
 

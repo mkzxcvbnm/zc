@@ -38,11 +38,6 @@
 <script>
     export default {
         name: 'tool',
-        data(){
-            return {
-                
-            }
-        },
         computed: vuex.mapState({
             ...vuex.mapState([
                 'mask',

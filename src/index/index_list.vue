@@ -76,41 +76,44 @@
                 }
             }
         },
-        mounted(){
-            let t = this;
-            this.$nextTick(() => {
-                let getlist = (type) => {
-                    mk.http('/name/'+type+'',
-                    this[type].params,
-                    (response) => {
-                        if (!response.data.length) {//没有数据了
-                            this[type].loading = 0;
-                            return;
-                        }
-                        for(let v of response.data){
-                            if (v.time) v.time = moment(v.time*1000).format('YYYY/MM/DD');
-                            if (v.updatetime) v.updatetime = moment(v.updatetime*1000).format('YYYY/MM/DD');
-                            this[type].data.push(v);//渲染
-                        }
-                        this.$set(this[type], 'loading', false);//准备渲染关闭loading
-                        this.$set(this[type].params, 'pages', this[type].params.pages + 1);//页数+1
-                    })
-                }
-
-                getlist('project');//最新项目
-                getlist('partake');//梦想清单
-                let debounced = _.debounce(getlist, 1500);
-
-                window.addEventListener('scroll', () => {
-                    let scrollTop = document.body.scrollTop;
-                    if(scrollTop + window.innerHeight >= document.body.clientHeight) {//滚到底部
-                        if (this[this.currentView].loading === false) {//非loading状态
-                            this.$set(this[this.currentView], 'loading', true);//显示loading
-                            debounced(this.currentView)//获取当前激活选项卡对应的数据
-                        }
+        methods: {
+            getlist(type){
+                mk.http('/name/'+type+'',
+                this[type].params,
+                (response) => {
+                    if (!response.data.length) {//没有数据了
+                        this[type].loading = 0;
+                        return;
                     }
-                });
-            });
+                    for(let v of response.data){
+                        if (v.time) v.time = moment(v.time*1000).format('YYYY/MM/DD');
+                        if (v.updatetime) v.updatetime = moment(v.updatetime*1000).format('YYYY/MM/DD');
+                        this[type].data.push(v);//渲染
+                    }
+                    this.$set(this[type], 'loading', false);//准备渲染关闭loading
+                    this.$set(this[type].params, 'pages', this[type].params.pages + 1);//页数+1
+                })
+            },
+            debounced(){
+                return _.debounce(this.getlist, 1500);
+            },
+            scroll(){
+                let scrollTop = document.body.scrollTop;
+                if(scrollTop + window.innerHeight >= document.body.clientHeight) {//滚到底部
+                    if (this[this.currentView].loading === false) {//非loading状态
+                        this.$set(this[this.currentView], 'loading', true);//显示loading
+                        this.debounced(this.currentView)//获取当前激活选项卡对应的数据
+                    }
+                }
+            }
+        },
+        created(){
+            this.getlist('project');//最新项目
+            this.getlist('partake');//梦想清单
+            window.addEventListener('scroll', this.scroll);
+        },
+        beforeDestroy(){
+            window.removeEventListener('scroll', this.scroll);
         }
     }
 </script>

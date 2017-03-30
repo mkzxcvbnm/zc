@@ -6,7 +6,7 @@
                 <img :src="data.litpic">
                 <p class="ellipsis">{{data.describe}}</p>
             </div>
-            <div class="project_money">
+            <div class="project_money" v-if="data.money">
                 <i class="yen">&yen;</i>{{data.money}}
             </div>
         </div>
@@ -36,8 +36,6 @@
                 data: {},
                 currentView: 1
             }
-        },
-        computed: {
         },
         components: {
             'project-content-view' : project_content,

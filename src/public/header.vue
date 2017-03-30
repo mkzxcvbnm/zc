@@ -1,6 +1,6 @@
 <template>
     <div class="header" ref="header">
-        <a v-if="back_show" @click="back" class="back" href="javascript:;"><i class="fa fa-angle-left"></i></a>
+        <a v-if="!back_show" @click="back" class="back" href="javascript:;"><i class="fa fa-angle-left"></i></a>
         <span class="ellipsis">{{this.tit}}</span>
     </div>
 </template>
@@ -11,7 +11,7 @@
         props: ['title', 'modeback'],
         data(){
             return {
-                back_show: this.$route.path != '/'
+                back_show: this.$route.path == '/' || this.$route.path == '/index'
             }
         },
         computed: vuex.mapState({
@@ -37,10 +37,6 @@
                     this.$router.go(-1)
                 }
             }
-        },
-        mounted(){
-            this.$nextTick(() => {
-            })
         },
     }
 </script>

@@ -82,7 +82,6 @@
 <script>
     export default {
         name: 'order',
-        props: [],
         data(){
             return {
                 data: {},
@@ -109,15 +108,7 @@
                 })
             },
         }),
-        components: {
-        },
-        watch: {
-        },
         methods: {
-            ...vuex.mapMutations([
-            ]),
-            ...vuex.mapActions([
-            ]),
             type_font(item){
                 switch (item.status) {
                     case 0: return '等待买家付款'
@@ -126,26 +117,12 @@
                 }
             },
         },
-        beforeCreate(){
-        },
         created(){
             mk.http('/name/Paylist',{
             },
             (response) => {
                 this.$set(this,'data',response.data);//渲染
             })
-        },
-        beforeMount(){
-        },
-        mounted(){
-            this.$nextTick(() => {
-            });
-        },
-        beforeUpdate(){
-        },
-        updated(){
-        },
-        beforeDestroy(){
         },
     }
 </script>

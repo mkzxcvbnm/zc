@@ -30,13 +30,11 @@
             swiper,
             swiperSlide,
         },
-        mounted(){
-            this.$nextTick(() => {
-                mk.http('/name/banner',{
-                },(response) => {
-                    this.swiperSlides = response.data;
-                })
-            });
+        created(){
+            mk.http('/name/banner',{
+            },(response) => {
+                this.swiperSlides = response.data;
+            })
         }
     }
 </script>

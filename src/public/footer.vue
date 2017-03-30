@@ -16,13 +16,13 @@
         <a href="javascript:;" class="weui-tabbar__item" @click="follow">
             <span>
                 <div class="ficon contain weui-tabbar__icon"></div>
+                <span class="weui-badge weui-badge_dot" style="position: absolute;top: 0;right: -6px;"></span>
             </span>
             <p class="weui-tabbar__label">关注</p>
         </a>
         <router-link :to="{ path: '/pay'}" class="weui-tabbar__item">
             <span>
                 <div class="ficon contain weui-tabbar__icon"></div>
-                <span class="weui-badge weui-badge_dot" style="position: absolute;top: 0;right: -6px;"></span>
             </span>
             <p class="weui-tabbar__label">订单</p>
         </router-link>
@@ -38,10 +38,6 @@
 <script>
     export default {
         name: 'footer',
-        data(){
-            return {
-            }
-        },
         methods: {
             ...vuex.mapMutations([
                 'ISBACK',

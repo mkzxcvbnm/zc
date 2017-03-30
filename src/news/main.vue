@@ -28,7 +28,6 @@
 
     export default {
         name: 'news',
-        props: [],
         data(){
             return {
                 data: [],//列表队列
@@ -40,26 +39,8 @@
                 loading: true//读取状态
             }
         },
-        computed: vuex.mapState({
-            ...vuex.mapState([
-            ]),
-            ...vuex.mapGetters([
-            ]),
-        }),
-        components: {
-        },
-        watch: {
-        },
         methods: {
-            ...vuex.mapMutations([
-            ]),
-            ...vuex.mapActions([
-            ]),
-        },
-        beforeCreate(){
-        },
-        created(){
-            let getlist = () => {
+            getlist(){
                 mk.http('/name/Article/',
                 this.params,
                 (response) => {
@@ -74,33 +55,27 @@
                     this.$set(this, 'loading', false);//准备渲染关闭loading
                     this.$set(this.params, 'pages', this.params.pages + 1);//页数+1
                 })
-            }
-
-            let debounced = _.debounce(getlist, 1500);
-            debounced();//获取数据
-            
-            window.addEventListener('scroll', () => {
+            },
+            debounced(){
+                return _.debounce(this.getlist, 1500);
+            },
+            scroll(){
                 let scrollTop = document.body.scrollTop;
                 if(scrollTop + window.innerHeight >= document.body.clientHeight) {//滚到底部
                     if (this.loading === false) {//非loading状态
                         this.$set(this, 'loading', true);//显示loading
-                        debounced()//获取当前激活选项卡对应的数据
+                        this.debounced()//获取当前激活选项卡对应的数据
                     }
                 }
-            });
-        },
-        beforeMount(){
+            }
         },
         mounted(){
-            this.$nextTick(() => {
-            });
-        },
-        beforeUpdate(){
-        },
-        updated(){
+            this.getlist();
+            window.addEventListener('scroll', this.scroll);
         },
         beforeDestroy(){
-        },
+            window.removeEventListener('scroll', this.scroll);
+        }
     }
 </script>
 

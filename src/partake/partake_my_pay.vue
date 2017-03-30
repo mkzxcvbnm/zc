@@ -31,12 +31,6 @@
                 },
             }
         },
-        components: {
-        },
-        computed: {
-        },
-        created() {
-        },
         methods: {
             ...vuex.mapMutations([
                 'ISBACK'

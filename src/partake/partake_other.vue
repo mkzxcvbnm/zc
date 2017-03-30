@@ -66,8 +66,6 @@
             'partake-pay-view' : partake_pay,
             'message-view' : message,
         },
-        created() {
-        },
         methods: {
             closepay(){
                 this.partake_pay_op = false

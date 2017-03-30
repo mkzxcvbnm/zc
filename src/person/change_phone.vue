@@ -19,44 +19,11 @@
 <script>
     export default {
         name: 'change_phone',
-        props: [],
-        data(){
-            return {
-            }
-        },
         computed: vuex.mapState({
             ...vuex.mapState([
                 'userinfo'
             ]),
-            ...vuex.mapGetters([
-            ]),
         }),
-        components: {
-        },
-        watch: {
-        },
-        methods: {
-            ...vuex.mapMutations([
-            ]),
-            ...vuex.mapActions([
-            ]),
-        },
-        beforeCreate(){
-        },
-        created(){
-        },
-        beforeMount(){
-        },
-        mounted(){
-            this.$nextTick(() => {
-            });
-        },
-        beforeUpdate(){
-        },
-        updated(){
-        },
-        beforeDestroy(){
-        },
     }
 </script>
 

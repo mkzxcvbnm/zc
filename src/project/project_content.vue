@@ -77,20 +77,21 @@
             more(event){
                 let t = event.currentTarget;
                 t.style.display = t.parentNode.style.maxHeight = 'none';
+            },
+            scroll(){
+                if(document.body.scrollTop >= this.$refs.tab.offsetTop - this.head_h) {
+                    this.$set(this, 'tab_top', true)
+                }else{
+                    this.$set(this, 'tab_top', false)
+                }
             }
         },
         mounted(){
-            this.$nextTick(() => {
-                let refs = this.$refs;
-                window.addEventListener('scroll', () => {
-                    if(document.body.scrollTop >= refs.tab.offsetTop - this.head_h) {
-                        this.$set(this, 'tab_top', true)
-                    }else{
-                        this.$set(this, 'tab_top', false)
-                    }
-                });
-            });
+            window.addEventListener('scroll', this.scroll);
         },
+        beforeDestroy(){
+            window.removeEventListener('scroll', this.scroll);
+        }
     }
 </script>
 

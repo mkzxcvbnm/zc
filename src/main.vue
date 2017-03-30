@@ -133,15 +133,9 @@
 
     export default {
         name: 'contianer',
-        data(){
-            return {
-            }
-        },
         computed: vuex.mapState({
             ...vuex.mapState([
                 'userinfo'
-            ]),
-            ...vuex.mapGetters([
             ]),
             count: state => state.count,
         }),
@@ -161,10 +155,6 @@
                 //console.log(this.userinfo)
             })
         },
-        mounted(){
-            this.$nextTick(() => {
-            })
-        }
     }
 </script>
 
