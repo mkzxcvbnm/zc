@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const SRC_PATH = path.resolve(__dirname, 'src');
 const DIST_PATH = path.resolve(__dirname, 'dist');
@@ -19,7 +20,7 @@ module.exports = {
         font: ['font-awesome-webpack'],
     },
     output: {
-        filename: '[name]-[hash].js',
+        filename: '[name]-[hash:8].js',
         path: DIST_PATH
     },
     module: {
@@ -49,15 +50,15 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif)$/,
-                loader: 'url-loader?limit=6000'
+                loader: 'url-loader?limit=6000&name=img/[name]-[hash:8].[ext]'
             },
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: "url-loader?limit=10000&mimetype=application/font-woff"
+                loader: "url-loader?limit=10000&mimetype=application/font-woff&name=fonts/[name].[ext]"
             },
             {
                 test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: "file-loader" 
+                loader: "file-loader?name=fonts/[name].[ext]"
             },
             {
                 test: /\.js$/,
@@ -73,6 +74,11 @@ module.exports = {
         }
     },
     plugins: [
+        new CleanWebpackPlugin(['dist'], {
+            root: __dirname,
+            verbose: true,
+            dry: false
+        }),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: '"production"'
