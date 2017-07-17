@@ -1,8 +1,8 @@
 <template>
     <div id="banner" class="banner">
         <swiper :options="swiperOption">
-            <swiper-slide v-for="slide in swiperSlides" :key="slide">
-                <div class="contain" :style="{ backgroundImage: 'url('+slide.litpic+')' }"></div>
+            <swiper-slide v-for="slide in swiperSlides" :key="slide.id">
+                <a :href="slide.url"><div class="cover" :style="{ backgroundImage: 'url('+slide.litpic+')' }"></div></a>
             </swiper-slide>
             <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import { swiper, swiperSlide } from 'vue-awesome-swiper'
+    import { swiper, swiperSlide } from 'vue-awesome-swiper';
 
     export default {
         name: 'banner',
@@ -23,7 +23,7 @@
                     observer: true,
                     autoplay: 5000,
                 },
-                swiperSlides: []
+                swiperSlides: mk.getDbJson('swiperSlides') || [] //优先缓存
             }
         },
         components: {
@@ -33,7 +33,13 @@
         created(){
             mk.http('/name/banner',{
             },(response) => {
-                this.swiperSlides = response.data;
+                if (!response.data.length) {
+                    localStorage.removeItem('swiperSlides');
+                    this.$set(this, 'swiperSlides', ['']);
+                    return;
+                }
+                this.$set(this, 'swiperSlides', response.data);
+                mk.setDbJson('swiperSlides', response.data);//缓存
             })
         }
     }
@@ -45,7 +51,7 @@
         margin-bottom: .2rem;
         background: #fff;
     }
-    .swiper-container,.banner .contain {
+    .swiper-container,.banner .cover {
         height: 100%;
     }
 </style>

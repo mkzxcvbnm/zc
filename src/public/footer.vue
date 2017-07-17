@@ -16,7 +16,7 @@
         <a href="javascript:;" class="weui-tabbar__item" @click="follow">
             <span>
                 <div class="ficon contain weui-tabbar__icon"></div>
-                <span class="weui-badge weui-badge_dot" style="position: absolute;top: 0;right: -6px;"></span>
+                <!-- <span class="weui-badge weui-badge_dot" style="position: absolute;top: 0;right: -6px;"></span> -->
             </span>
             <p class="weui-tabbar__label">关注</p>
         </a>
@@ -39,7 +39,7 @@
     export default {
         name: 'footer',
         methods: {
-            ...vuex.mapMutations([
+            ...Vuex.mapMutations([
                 'ISBACK',
                 'SETTRANSITIONNAME'
             ]),
@@ -65,7 +65,7 @@
         background: #f7f7f7;
         border-top: 1px solid #b2b2b2;
         font-size: .2rem;
-        transition: all .3s;
+        transition: all .2s cubic-bezier(0, 1, .5, 1);
         opacity: 1;
         visibility: visible;
         .ficon {

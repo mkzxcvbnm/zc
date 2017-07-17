@@ -11,10 +11,10 @@
             return {
             }
         },
-        computed: vuex.mapState({
-            ...vuex.mapState([
+        computed: Vuex.mapState({
+            ...Vuex.mapState([
             ]),
-            ...vuex.mapGetters([
+            ...Vuex.mapGetters([
             ]),
         }),
         components: {
@@ -22,9 +22,9 @@
         watch: {
         },
         methods: {
-            ...vuex.mapMutations([
+            ...Vuex.mapMutations([
             ]),
-            ...vuex.mapActions([
+            ...Vuex.mapActions([
             ]),
         },
         beforeCreate(){

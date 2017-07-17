@@ -1,8 +1,12 @@
 <template>
     <div class="index upper_lower_spacing">
-        <header-view></header-view>
-        <banner-view></banner-view>
-        <list-view></list-view>
+        <!-- <header-view></header-view> -->
+        <draggable-view>
+            <template slot="draggable">
+                <banner-view></banner-view>
+                <list-view></list-view>
+            </template>
+        </draggable-view>
         <footer-view></footer-view>
     </div>
 </template>
@@ -16,6 +20,27 @@
         components: {
             'banner-view' : banner,
             'list-view' : list,
+        },
+        methods: {
+            ...Vuex.mapMutations([
+                'SCROLL'
+            ]),
+        },
+        created(){
+            document.title = '中国青商联盟';
+            //获取分享参数
+            mk.http('/name/Config/cname/share',{
+            },(response) => {
+                mk.showMenuItems({
+                    title: response.data.hometitle,
+                    desc: response.data.homedesc,
+                    imgUrl: response.data.homepic,
+                });//显示分享按钮
+            })
+        },
+        beforeRouteLeave(to, from, next){
+            this.SCROLL(document.body.scrollTop)
+            next()
         },
     }
 </script>

@@ -4,9 +4,18 @@ import store from './vuex/store'
 
 Vue.use(VueRouter)
 Vue.use(require('vue-resource'))
-Vue.use(mk)
-mk.$http = Vue.http
 
+//vue-resource拦截器
+Vue.http.interceptors.push((request, next) => {
+    //在所有请求发送之前
+    if (_.endsWith(request.url, 'Userinfo')) {
+        store.dispatch('loadingToast', [true])
+    }
+    next((response) => {
+        //在所有请求响应之后触发 无论是否成功
+        store.dispatch('loadingToast', [false])
+    });
+});
 const router = new VueRouter({
     routes: [
         {
@@ -114,6 +123,13 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    name: 'change_uname',
+                    path: '/change_uname',
+                    component: resolve => {
+                        require(['./person/change_uname.vue'], resolve);
+                    }
+                },
+                {
                     name: 'pay',
                     path: '/pay',
                     component: resolve => {
@@ -127,15 +143,41 @@ const router = new VueRouter({
                         require(['./partake/partake_my_list.vue'], resolve);
                     }
                 },
+                {
+                    name: 'clock',
+                    path: '/clock',
+                    component: resolve => {
+                        require(['./clock/main.vue'], resolve);
+                    }
+                },
             ]
         },{ path: '*', redirect: '/index' }
     ],
     linkActiveClass: 'active'
 });
 
-// router.beforeEach((to, from, next) => {
-//     next()
-// });
+let routerBack = false;
+window.addEventListener("popstate", function(e) {
+    if (routerBack) {
+        //点击返回 开启返回动画
+        store.commit('ISBACK', !store.state.isback);
+    }
+    routerBack = true;
+}, false);
+
+//let routerQueue = [];//路由队列
+router.beforeEach((to, from, next) => {
+    scroll(0,0)
+    mk.hideMenuItems();
+    // if (routerQueue[routerQueue.length - 1] == to.path + '=>' + from.path) {
+    //     store.commit('ISBACK', !store.state.isback);
+    //     routerQueue.pop();
+    // }else{
+    //     routerQueue.push(from.path + '=>' + to.path);
+    // }
+    routerBack = false;
+    next();
+});
 
 new Vue({
     el:'#app',

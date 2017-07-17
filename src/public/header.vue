@@ -14,19 +14,19 @@
                 back_show: this.$route.path == '/' || this.$route.path == '/index'
             }
         },
-        computed: vuex.mapState({
-            ...vuex.mapState([
+        computed: Vuex.mapState({
+            ...Vuex.mapState([
                 'isback'
             ]),
             tit: function () {
-                return this.title || '青商户外联盟'
+                return this.title || '中国青商联盟'
             },
             mode_back(){
                 return this.modeback;
             }
         }),
         methods: {
-            ...vuex.mapMutations([
+            ...Vuex.mapMutations([
                 'ISBACK'
             ]),
             back(){

@@ -1,6 +1,6 @@
 <template>
     <div class="change_phone upper_lower_spacing">
-        <header-view :title="'手机绑定'"></header-view>
+        <!-- <header-view :title="'手机绑定'"></header-view> -->
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">
@@ -19,11 +19,14 @@
 <script>
     export default {
         name: 'change_phone',
-        computed: vuex.mapState({
-            ...vuex.mapState([
+        computed: Vuex.mapState({
+            ...Vuex.mapState([
                 'userinfo'
             ]),
         }),
+        created(){
+            document.title = '手机绑定';
+        },
     }
 </script>
 

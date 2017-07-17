@@ -5,14 +5,14 @@
             <div class="line row_l row_r"></div>
         </div>
         <transition-group name="fade" class="message_list">
-            <div v-for="(item, index) in data" class="weui-media-box weui-media-box_appmsg" :key="item">
+            <div v-for="(item, index) in data" class="weui-media-box weui-media-box_appmsg" :key="item.id">
                 <img class="weui-media-box__thumb" :src="item.portrait">
                 <div class="weui-media-box__bd">
                     <h4 class="weui-media-box__title"><div class="ellipsis">{{item.nickname}}</div><div>付款<span class="green">{{item.money}}元</span></div></h4>
                     <p class="weui-media-box__desc">{{item.content}}</p>
                     <div class="message_bottom">
-                        <span>{{item.time}}</span>
-                        <a href="javascript:;" @click="hf(item.id)">回复</a>
+                        <span>{{distime(item.time)}}</span>
+                        <a href="javascript:;" @click="hf(item)">回复</a>
                     </div>
                     <div class="reply" v-for="(hf, index) in item.huifu">
                         <h2>{{hf.nickname}}</h2>
@@ -34,6 +34,7 @@
 
 <script>
     import dialog from './dialog.vue';
+    
     export default {
         name: 'message',
         props: ['pdata'],
@@ -43,7 +44,7 @@
                 params: {//发送数据
                     pid: this.pdata.id,
                     pages: 1,
-                    limit: 5,
+                    limit: 10,
                 },
                 params2: {//留言发送数据
                     pid: this.pdata.id,
@@ -56,8 +57,8 @@
                 debounced: _.debounce(this.getlist, 1500),//防止短时间内多次调用接口
             }
         },
-        computed: vuex.mapState({
-            ...vuex.mapState([
+        computed: Vuex.mapState({
+            ...Vuex.mapState([
                 'userinfo'//个人信息
             ]),
         }),
@@ -65,13 +66,34 @@
             'dialog-view': dialog,
         },
         methods: {
-            ...vuex.mapActions([
+            ...Vuex.mapActions([
                 'mask',
                 'toast',
                 'loadingToast',
+                'dialog',
             ]),
-            hf(id){
-                this.$set(this.params2, 'cid', id);
+            distime(item_time){
+                let time = new Date().getTime()/1000 - item_time;
+                if (time < 43200) {
+                    return '刚刚发起'
+                }else if(time < 86400){
+                    return '1天内发起'
+                }else if(time < 172800){
+                    return '2天内发起'
+                }else if(time < 259200){
+                    return '3天内发起'
+                }else{
+                    return moment(item_time*1000).format('YYYY/MM/DD')
+                }
+            },
+            hf(item){
+                if (this.pdata.uid != 0) {
+                    if (item.status == 0) {
+                        this.dialog([true, '未支持不能回复']);
+                        return;
+                    }
+                }
+                this.$set(this.params2, 'cid', item.id);
                 this.$set(this, 'dialogOc', true);
             },
             text(text){
@@ -82,32 +104,32 @@
                 this.$set(this, 'dialogOc', false);
             },
             push(text){
-                this.loadingToast([true])
                 //修改信息
                 mk.http('/name/Comment/',
                 this.params2,
                 (response) => {
-                    this.loadingToast([false])
                     if (response.data.status === 0) {
                         this.toast([true, , response.data.mess, () => {
                             //不刷新添加新回复
-                            for (let v of this.data) {
+                            this.data.some((v, i) => {
                                 if (v.id == this.params2.cid) {
+                                    if (!v.huifu) {
+                                        this.$set(this.data[i], 'huifu', [])
+                                    }
                                     v.huifu.push({
                                         content: text,
                                         nickname: this.userinfo.nickname,
                                     });
-                                    return;
+                                    return true;
                                 }
-                            }
+                            });
                         }])
                     }else{
-                        this.toast([false, , response.data.mess])
+                        this.dialog([true, response.data.mess])
                     }
                 },
                 (response) => {
-                    this.loadingToast([false])
-                    this.toast([false, , response])
+                    this.dialog([true, response])
                 })
             },
             getlist(){
@@ -115,20 +137,21 @@
                 mk.http('/name/Commentlist/',
                 this.params,
                 (response) => {
-                    if (!response.data.length){//没有数据了
-                        this.loading = 0;
-                        return;
+                    if (response.data.length) {
+                        for(let v of response.data){
+                            this.data.push(v);//渲染
+                        }
+                        this.$set(this, 'loading', false);//准备渲染关闭loading
+                        this.$set(this.params, 'pages', this.params.pages + 1);//页数+1
                     }
-                    for(let v of response.data){
-                        this.data.push(v);//渲染
+                    if (response.data.length < this.params.limit) {//数据不足 或 没有数据
+                        this.$set(this, 'loading', 0);
                     }
-                    this.$set(this, 'loading', false);//准备渲染关闭loading
-                    this.$set(this.params, 'pages', this.params.pages + 1);//页数+1
                 })
             },
             scroll(){
                 let scrollTop = document.body.scrollTop;
-                if(scrollTop + window.innerHeight >= document.body.clientHeight) {//滚到底部
+                if(scrollTop + window.innerHeight >= document.body.clientHeight - 1000) {//滚到底部
                     if (this.loading === false) {//非loading状态
                         this.$set(this, 'loading', true);//显示loading
                         this.debounced()//获取数据

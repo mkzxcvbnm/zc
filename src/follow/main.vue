@@ -1,11 +1,11 @@
 <template>
     <div class="follow">
         <div class="follow_tit">
-            <h2>先关注公众号才可以参加活动</h2>
-            <span>长按二维码图片</span>
+            <h2>关注公众号可以获取更多活动相关信息哦</h2>
+            <span>长按二维码识别</span>
         </div>
         <img :src="data">
-        <p>关注公众号后，可获得消息通知</p>
+        <p>如有问题，关注后即可和客服联系</p>
         <span class="follow_icon" @click="back">
             <div class="close"></div>
         </span>
@@ -21,15 +21,18 @@
             }
         },
         methods: {
-            ...vuex.mapMutations([
+            ...Vuex.mapMutations([
+                'ISBACK',
                 'SETTRANSITIONNAME'
             ]),
             back(){
+                this.ISBACK(true)
                 this.SETTRANSITIONNAME('translateY')
                 this.$router.go(-1)
             }
         },
         created() {
+            document.title = '关注我们';
             mk.http('/name/Config/cname/wxewm/',{
             },(response) => {
                 this.$set(this,'data',response.data.replace(/(^\")|(\"*$)/g, ""))
@@ -50,6 +53,7 @@
         justify-content: center;
         flex-direction: column;
         text-align: center;
+        z-index: 9999!important;
         img {
             width: 2.67rem;
             height: 2.67rem;

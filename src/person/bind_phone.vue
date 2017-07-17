@@ -1,6 +1,6 @@
 <template>
     <div class="bind_phone upper_lower_spacing">
-        <header-view :title="'手机绑定'"></header-view>
+        <!-- <header-view :title="'手机绑定'"></header-view> -->
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd">
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips" @click="bind">提交</a>
+            <a class="weui-btn" :class="[btn_class?'weui-btn_primary':'weui-btn_disabled']" href="javascript:" id="showTooltips" @click="bind">提交</a>
         </div>
         <footer-view></footer-view>
     </div>
@@ -40,27 +40,41 @@
                 vcode: '',//用户输入的验证码
             }
         },
-        computed: vuex.mapState({
-            ...vuex.mapState([
+        computed: Vuex.mapState({
+            ...Vuex.mapState([
                 'userinfo'
             ]),
+            btn_class(){
+                if (this.tel != '' && this.vcode != '') {
+                    return true
+                }else{
+                    return false
+                }
+            }
         }),
+        created(){
+            document.title = '手机绑定';
+        },
         methods: {
-            ...vuex.mapMutations([
+            ...Vuex.mapMutations([
                 'ISBACK'
             ]),
-            ...vuex.mapActions([
+            ...Vuex.mapActions([
                 'mask',
                 'toast',
                 'loadingToast',
                 'dialog'
             ]),
             vfc_tel(){
-                return this.tel.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+                return this.tel.match(/^1(3|4|5|7|8)\d{9}$/);
             },
             getvcode(){
                 if (!this.vfc_tel()) {
-                    this.dialog([true,'您输入的号码有误，请重新输入']);
+                    this.dialog([true, '请输入正确手机号']);
+                    return;
+                }
+                if (this.tel == this.userinfo.tel) {
+                    this.dialog([true, '输入的号码与原号码相同，请输入新号码']);
                     return;
                 }
                 this.vcode_time = 60;
@@ -74,37 +88,42 @@
                 mk.http('/name/Sms/',{
                     tel: this.tel
                 },(response) => {
-                    //console.log(response)
+                    if (response.data.status !== 0) {
+                        this.dialog([true, response.data.mess]);
+                        this.vcode_time = 3
+                    }
                 })
             },
             bind(){
-                if (this.vcode_time == '') {
-                    this.toast([false, , '请点击获取验证码']);
+                if (!this.vfc_tel()) {
                     return;
                 }
                 if (!this.vcode) {
-                    this.toast([false, , '请输入验证码']);
+                    this.dialog([true, '请输入正确的验证码']);
                     return;
                 }
-                this.loadingToast([true])
-                //发送手机号获取验证码
+                //提交验证码
                 mk.http('/name/Sms/',{
                     tel: this.tel,
                     vcode: this.vcode,
                 },(response) => {
-                    this.loadingToast([false])
                     if (response.data.status === 0) {
                         this.toast([true, 3000, response.data.mess, () => {
+                            mk.get(this, 'Userinfo');//重新获取用户信息
                             this.ISBACK(true)
-                            this.$router.replace({ path: '/person'})
+                            if (this.$route.params.type) {
+                                //活动页点击按钮过来的 验证成功之后回到之前的页面
+                                this.$router.go(-1)
+                            }else{
+                                this.$router.replace({ path: '/person'})
+                            }
                         }])
                     }else{
-                        this.toast([false, , response.data.mess])
+                        this.dialog([true, '请输入正确的验证码']);
                     }
                 },
                 (response) => {
-                    this.loadingToast([false])
-                    this.toast([false, , response])
+                    this.dialog([true, response])
                 })
             }
         },

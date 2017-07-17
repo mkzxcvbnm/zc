@@ -32,7 +32,7 @@
 
 <script>
     import bar from'./bar.vue';
-
+    
     export default {
         name: 'partake_content',
         props: ['pdata'],
@@ -44,7 +44,7 @@
         },
         computed: {
             distime: function(){
-                let time = this.data.time - new Date().getTime()/1000
+                let time = new Date().getTime()/1000 - this.data.time;
                 if (time < 43200) {
                     return '刚刚发起'
                 }else if(time < 86400){
@@ -54,7 +54,7 @@
                 }else if(time < 259200){
                     return '3天内发起'
                 }else{
-                    return moment(time*1000).format('YYYY/MM/DD')
+                    return moment(this.data.time*1000).format('YYYY/MM/DD')
                 }
             }
         },
@@ -84,6 +84,7 @@
         }
         p {
             font-size: .28rem;
+            line-height: 1.4;
         }
     }
     .partake_content_c {
@@ -110,7 +111,7 @@
         }
         img {
             float: right;
-            width: 1.33rem;
+            width: 1.7rem;
         }
     }
 </style>

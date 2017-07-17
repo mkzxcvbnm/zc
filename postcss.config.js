@@ -6,7 +6,7 @@ module.exports = {
                 'last 4 versions',
                 'Safari >= 6',
                 'iOS 7'
-            ] 
+            ]
         })
     ]
 }

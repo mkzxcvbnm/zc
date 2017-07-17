@@ -1,33 +1,38 @@
 <template>
     <div class="project upper_spacing upper_lower">
-        <header-view :title="data.title" ref="header"></header-view>
+        <!-- <header-view :title="data.title" ref="header"></header-view> -->
         <div class="project_top f">
             <div class="project_img">
                 <img :src="data.litpic">
                 <p class="ellipsis">{{data.describe}}</p>
             </div>
             <div class="project_money" v-if="data.money">
-                <i class="yen">&yen;</i>{{data.money}}
+                梦想基金{{data.money}}
             </div>
         </div>
         <project-content-view :pid="data.id" v-if="data.id" :prefs="$refs"></project-content-view>
         <div class="bbtn translate-hidden">
             <a href="javascript:;" class="weui-btn weui-btn_warn" v-if="data.status == 1">活动未开始</a>
             <template v-if="data.status == 2">
-                <a @click="sign" href="javascript:;" class="weui-btn weui-btn_primary" v-if="!data.Partake">我要报名</a>
-                <router-link :to="{ name: 'partake', params: { id: data.Partake } }" class="weui-btn weui-btn_primary" v-else>我的众筹</router-link>
+                <a @click="sign" href="javascript:;" class="weui-btn weui-btn_primary" v-if="!data.partake">我要报名</a>
+                <router-link :to="{ name: 'partake', params: { id: data.partake } }" class="weui-btn weui-btn_primary" v-else>我的众筹</router-link>
             </template>
             <template v-if="data.status == 3">
-                <router-link :to="{ name: 'project_order', params: { id: data.id } }" class="weui-btn weui-btn_primary" v-if="!data.Partake">立即支付</router-link>
-                <router-link :to="{ name: 'partake', params: { id: data.Partake } }" class="weui-btn weui-btn_primary" v-else>报名成功</router-link>
+                <template v-if="data.partake">
+                    <router-link :to="{ name: 'partake', params: { id: data.partake } }" class="weui-btn weui-btn_primary" v-if="data.ptkstatus == 1">报名成功</router-link>
+                    <router-link :to="{ name: 'partake_my_pay', params: { id: data.partake, title: data.title } }" class="weui-btn weui-btn_primary" v-else>立即支付</router-link>
+                </template>
+                <a @click="pay" href="javascript:;" class="weui-btn weui-btn_primary" v-else>立即支付</a>
             </template>
             <a href="javascript:;" class="weui-btn weui-btn_warn" v-if="data.status == 4">活动结束</a>
         </div>
+        <rbtn-view></rbtn-view>
     </div>
 </template>
 
 <script>
     import project_content from './project_content.vue';
+    import rbtn from '../public/rbtn.vue';
 
     export default {
         name: 'project',
@@ -37,45 +42,101 @@
                 currentView: 1
             }
         },
+        computed: Vuex.mapState({
+            ...Vuex.mapState([
+                'userinfo'
+            ]),
+        }),
         components: {
             'project-content-view' : project_content,
+            'rbtn-view' : rbtn,
+        },
+        watch: {
+            data(){
+                document.title = this.data.title;
+            }
         },
         created(){
             mk.http('/name/Projectshow/',{
                 id: this.$route.params.id
             },(response) => {
-                // response.data.status = 2;
-                // response.data.Partake = 0;
                 this.$set(this,'data',response.data)
+                mk.showMenuItems({
+                    title: response.data.title,
+                    desc: response.data.describe,
+                    imgUrl: response.data.litpic,
+                });//显示分享按钮
             })
         },
         methods: {
-            ...vuex.mapActions([
+            ...Vuex.mapActions([
                 'mask',
                 'toast',
                 'loadingToast',
+                'iosDialog1',
+                'dialog'
             ]),
+            verify(){
+                if (!this.userinfo.tel && !this.userinfo.uname) {
+                    this.iosDialog1([true, '提示', '未验证姓名和手机号的用户无法报名，点击确认前往验证页面', () => {
+                        this.$router.push({ name: 'person'})
+                    }])
+                    return;
+                }
+                if (!this.userinfo.tel) {
+                    this.iosDialog1([true, '提示', '未验证手机号的用户无法报名，点击确认前往验证页面', () => {
+                        this.$router.push({ name: 'bind_phone', params: { type: 'project'}})
+                    }])
+                    return;
+                }
+                if (!this.userinfo.uname) {
+                    this.iosDialog1([true, '提示', '未验证姓名的用户无法报名，点击确认前往验证页面', () => {
+                        this.$router.push({ name: 'change_uname', params: { type: 'project'}})
+                    }])
+                    return;
+                }
+            },
             sign(){
-                this.loadingToast([true])
+                if (!this.userinfo.tel || !this.userinfo.uname) {
+                    this.verify();
+                    return;
+                }
+                // if (!this.userinfo.tel) {
+                //     this.iosDialog1([true, '提示', '未验证手机号的用户无法报名，点击确认前往验证页面', () => {
+                //         this.$router.push({ name: 'bind_phone', params: { type: 'project', tid: this.data.id }})
+                //     }])
+                //     return;
+                // }
                 mk.http('/name/Partakeadd/',{
                     id: this.$route.params.id
                 },
                 (response) => {
-                    this.loadingToast([false])
                     if (response.data[0].status === 0) {
-                        this.toast([true, , response.data[0].mess, () => {
+                        this.toast([true, , '您已成功报名', () => {
                             this.$router.push({ name: 'partake', params: { id: response.data[0].id }})
                         }])
                     }else{
-                        this.toast([false, , response.data[0].mess])
+                        this.dialog([true, response.data[0].mess])
                     }
                 },
                 (response) => {
-                    this.loadingToast([false])
-                    this.toast([false, , response])
+                    this.dialog([true, response])
                 })
+            },
+            pay(){
+                if (!this.userinfo.tel || !this.userinfo.uname) {
+                    this.verify();
+                    return;
+                }
+                // if (!this.userinfo.tel) {
+                //     this.iosDialog1([true, '提示', '未验证手机号的用户无法报名，点击确认前往验证页面', () => {
+                //         this.$router.push({ name: 'bind_phone', params: { type: 'project_order', tid: this.data.id }})
+                //     }])
+                //     return;
+                // }
+                this.$router.push({ name: 'project_order', params: { id: this.data.id }})
             }
-        }
+        },
     }
 </script>
 

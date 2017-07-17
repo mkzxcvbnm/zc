@@ -47,6 +47,8 @@ npm run build   (-p 压缩)
     │
     ├── vuex                    # vue状态管理
     │
+    ├── components              # 组件
+    │
     ├── index                   # 首页模块
     │
     ├── partake                 # 众筹项目模块

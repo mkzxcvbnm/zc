@@ -1,11 +1,11 @@
 <template>
     <div class="project_order upper_spacing upper_lower">
-        <header-view :title="data.title"></header-view>
-        <div class="pay_box">
+        <!-- <header-view :title="data.title"></header-view> -->
+        <div class="pay_box" v-if="data.id">
             <div class="pay_img contain" :style="{ backgroundImage: 'url('+data.litpic+')' }"></div>
             <div class="pay_content">
                 <h2 class="ellipsis">{{data.title}}</h2>
-                <p><i class="yen">&yen;</i>{{data.money}} x 1</p>
+                <p><i class="yen">&yen;</i>{{data.money/100}} x {{params.pay_num}}</p>
             </div>
             <div class="pay_num">
                 <div class="fl">购买数量</div>
@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="pay_hj">
-                合计： <span><i class="yen">&yen;</i>{{data.money*params.pay_num}}</span>
+                合计： <span><i class="yen">&yen;</i>{{data.money*params.pay_num/100}}</span>
             </div>
         </div>
         <div class="bbtn translate-hidden">
@@ -37,18 +37,25 @@
                 }
             }
         },
+        watch: {
+            data(){
+                document.title = this.data.title;
+            }
+        },
         created(){
             mk.http('/name/Projectshow/',{
                 id: this.$route.params.id
             },(response) => {
+                response.data.money = Math.round(response.data.money*100);
                 this.$set(this, 'data', response.data);
             })
         },
         methods: {
-            ...vuex.mapActions([
+            ...Vuex.mapActions([
                 'mask',
                 'toast',
                 'loadingToast',
+                'dialog'
             ]),
             onInput(v){
                 if(typeof v == 'string') {
@@ -57,6 +64,10 @@
                 if (v < 1) {
                     this.$set(this.params,'pay_num', 1)
                 }
+                if (this.params.pay_num * this.data.money > 1e7) {
+                    this.$set(this.params,'pay_num', Math.floor(1e7 / this.data.money))
+                    this.dialog([true, '最大订单金额不能超过10万'])
+                }
             },
             minus(){
                 if (this.params.pay_num > 1) {
@@ -64,25 +75,23 @@
                 }
             },
             plus(){
-                this.params.pay_num++
+                this.params.pay_num++;
+                this.onInput(this.params.pay_num);
             },
             pay(){
-                this.loadingToast([true])
                 mk.http('/name/Pay',
                 this.params,
                 (response) => {
-                    this.loadingToast([false])
                     if (response.data[0].status === 0) {
                         this.toast([true, , response.data[0].mess, () => {
                             this.$router.push({ name: 'project_pay', params: { id: response.data[0].id }})
                         }])
                     }else{
-                        this.toast([false, , response.data[0].mess])
+                        this.dialog([true, response.data[0].mess])
                     }
                 },
                 (response) => {
-                    this.loadingToast([false])
-                    this.toast([false, , response])
+                    this.dialog([true, response])
                 })
             },
         },
@@ -124,7 +133,6 @@
             float: left;
         }
         .num_box {
-            width: 2.4rem;
             height: .68rem;
             line-height: .68rem;
             text-align: center;
@@ -137,6 +145,7 @@
                 height: .68rem;
                 float: left;
                 border: 1px solid #999;
+                border-radius: 0;
             }
             div {
                 background: #f1f1f1;

@@ -24,13 +24,20 @@
                 data: ''
             }
         },
-        computed: vuex.mapState({
+        computed: Vuex.mapState({
             oc: function(){
                 return this.dialogOc
             }
         }),
         methods: {
+            ...Vuex.mapActions([
+                'dialog',
+            ]),
             push() {
+                if (this.data == '') {
+                    this.dialog([true, '留言内容不能为空']);
+                    return;
+                }
                 this.$emit('text', this.data)
             },
             close(){
@@ -43,6 +50,9 @@
 <style lang="scss" rel="stylesheet/scss" scoped>
     .weui-dialog {
         border-radius: 5px;
+        textarea {
+            font-size: .34rem;
+        }
     }
     .weui-dialog__hd {
         padding-bottom: .3rem;

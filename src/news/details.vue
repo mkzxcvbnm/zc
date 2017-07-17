@@ -1,6 +1,6 @@
 <template>
     <div class="details upper_spacing">
-        <header-view :title="'系统信息'"></header-view>
+        <!-- <header-view :title="'系统信息'"></header-view> -->
         <div class="weui-cells">
             <div class="center">
                 <div class="title">
@@ -18,8 +18,6 @@
 </template>
 
 <script>
-    let moment = require('moment');
-
     export default {
         name: 'details',
         data(){
@@ -27,12 +25,13 @@
                 data: {}
             }
         },
-        computed: vuex.mapState({
+        computed: Vuex.mapState({
             time(){
                 return moment(this.data.time*1000).format('YYYY-MM-DD')
             }
         }),
         created(){
+            document.title = '系统信息';
             //获取详情数据
             mk.http('/name/Articleshow/',{
                 id: this.$route.params.id

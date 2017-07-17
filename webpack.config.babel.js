@@ -10,20 +10,22 @@ const node_modules = path.resolve(__dirname, 'node_modules');
 module.exports = {
     entry: {
         main: path.resolve(SRC_PATH, 'index.js'),
-        common: ['vue', 'vue-router', 'vuex'],
-        jquery: ['jquery'],
-        velocity: ['velocity-animate'],
-        moment: ['moment'],
-        lodash: ['lodash'],
-        swiper: ['swiper'],
-        weui: ['weui'],
-        font: ['font-awesome-webpack'],
+        common: ['vue', 'vue-router', 'vuex', 'vue-resource'],
+        //jquery: 'jquery',
+        swiper: 'swiper',
+        velocity: 'velocity-animate',
+        lodash: 'lodash',
+        moment: 'moment/min/moment.min.js',
+        mk: path.resolve(SRC_PATH, 'js/mk.js'),
+        weui: 'weui',
+        font: 'font-awesome-webpack',
     },
     output: {
         filename: '[name]-[hash:8].js',
         path: DIST_PATH
     },
     module: {
+        noParse: [/moment.min/],//不再扫描这个文件中的依赖
         loaders: [
             {
                 test: /\.vue$/,
@@ -39,7 +41,7 @@ module.exports = {
                                 'last 4 versions',
                                 'Safari >= 6',
                                 'iOS 7'
-                            ] 
+                            ]
                         })
                     ]
                 }
@@ -50,7 +52,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif)$/,
-                loader: 'url-loader?limit=6000&name=img/[name]-[hash:8].[ext]'
+                loader: 'url-loader?limit=10000&name=img/[name]-[hash:8].[ext]'
             },
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -70,11 +72,11 @@ module.exports = {
     resolve: {
         //配置别名，在项目中可缩减引用路径
         alias: {
-            'vue' : path.resolve(node_modules, 'vue/dist/vue.common.js'),
+            'vue$': 'vue/dist/vue.common.js'//vue 独立构建
         }
     },
     plugins: [
-        new CleanWebpackPlugin(['dist'], {
+        new CleanWebpackPlugin(['dist/**/*'], {
             root: __dirname,
             verbose: true,
             dry: false
@@ -101,24 +103,25 @@ module.exports = {
         }),
         //提供全局的变量，在模块中使用无需用require引入
         new webpack.ProvidePlugin({
-            $: 'jquery',
-            vue: 'vue',
-            vuex: 'vuex',
-            mk: path.resolve(SRC_PATH, 'js/mk.js'),
+            //$: 'jquery',
+            Vue: 'vue',
+            Vuex: 'vuex',
             velocity: 'velocity',
             _: 'lodash',
+            moment: 'moment/min/moment.min.js',
+            mk: path.resolve(SRC_PATH, 'js/mk.js'),
         }),
         //将公共代码抽离出来合并为一个文件
         new webpack.optimize.CommonsChunkPlugin({
-            name: ['common', 'jquery', 'moment', 'swiper', 'velocity', 'lodash', 'weui', 'font'],
+            name: ['main', 'common', 'jquery', 'swiper', 'velocity', 'lodash', 'moment', 'mk', 'weui', 'font'],
             minChunks: Infinity
         }),
         new HtmlWebpackPlugin({
             title: 'demo',
             filename: 'index.html',
-            template: SRC_PATH + '/index.html',//Webpack需要模板的路径
+            template: path.resolve(SRC_PATH, 'index.html'),//Webpack需要模板的路径
             inject: true,//当传递true或'body'所有javascript资源将放置在body元素的底部。'head'将脚本放置在head元素中
-            favicon: 'src/favicon.ico',//将给定图标路径输出HTML
+            favicon: path.resolve(SRC_PATH, 'favicon.ico'),//将给定图标路径输出HTML
             minify: {
                 removeComments: true,//删除HTML注释
                 collapseWhitespace: true//折叠文档树中文本节点间的空白
