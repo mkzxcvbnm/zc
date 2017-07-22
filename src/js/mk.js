@@ -1,5 +1,6 @@
 window.path = 'http://api.qstubu.com';
 import store from '../vuex/store'
+const resource = require('vue-resource')
 module.exports = {
     rem(size = 750){
         let html = document.getElementsByTagName('html')[0];
@@ -13,7 +14,7 @@ module.exports = {
         return this;
     },
     wx(){
-        this.http('/name/Wxsdk',{
+        resource.Http('/name/Wxsdk',{
             url: window.location.href.replace(window.location.protocol + '//', '')
         },(response) => {
             wx.config({
@@ -85,7 +86,7 @@ module.exports = {
     },
     http(url, params={}, success=()=>{}, error=()=>{}){
         //store.commit('MASK', true);
-        Vue.http.jsonp(path + '/index.php/api/index' + url,{
+        resource.Http.jsonp(path + '/index.php/api/index' + url,{
             params: params
         })
         .then((response) => {
@@ -100,7 +101,7 @@ module.exports = {
         return this;
     },
     get(t, type){
-        this.http('/name/' + type,{
+        resource.Http('/name/' + type,{
         },(response) => {
             switch (type) {
                 case 'Userinfo':

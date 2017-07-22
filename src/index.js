@@ -5,8 +5,9 @@ import store from './vuex/store'
 Vue.use(VueRouter)
 Vue.use(require('vue-resource'))
 
+const resource = require('vue-resource')
 //vue-resource拦截器
-Vue.http.interceptors.push((request, next) => {
+resource.Http.interceptors.push((request, next) => {
     //在所有请求发送之前
     if (_.endsWith(request.url, 'Userinfo')) {
         store.dispatch('loadingToast', [true])
@@ -148,6 +149,20 @@ const router = new VueRouter({
                     path: '/clock',
                     component: resolve => {
                         require(['./clock/main.vue'], resolve);
+                    }
+                },
+                {
+                    name: 'intention',
+                    path: '/intention',
+                    component: resolve => {
+                        require(['./person/intention.vue'], resolve);
+                    }
+                },
+                {
+                    name: 'payment',
+                    path: '/payment/:id',
+                    component: resolve => {
+                        require(['./payment/main.vue'], resolve);
                     }
                 },
             ]

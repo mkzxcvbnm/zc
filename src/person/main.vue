@@ -50,6 +50,12 @@
                 </div>
                 <div class="weui-cell__ft"></div>
             </router-link>
+            <router-link :to="{ path: '/intention'}" class="weui-cell weui-cell_access">
+                <div class="weui-cell__bd">
+                    <span style="vertical-align: middle">赞助意向</span>
+                </div>
+                <div class="weui-cell__ft"></div>
+            </router-link>
             <router-link :to="{ path: '/news'}" class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">
                     <span style="vertical-align: middle">系统消息</span>
