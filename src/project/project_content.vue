@@ -57,6 +57,9 @@
             },(response) => {
                 this.$set(this,'pro_data',response.data)
                 this.currentView = 1;
+                if (response.data.id == 14) {
+                    this.$set(this,'tab_tit', ['详情描述', '报名相关', '公司介绍']);
+                }
             })
         },
         methods: {

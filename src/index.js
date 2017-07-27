@@ -182,7 +182,18 @@ window.addEventListener("popstate", function(e) {
 
 //let routerQueue = [];//路由队列
 router.beforeEach((to, from, next) => {
-    scroll(0,0)
+    //scroll(0,0)
+    Velocity(document.body, 'scroll', {
+        duration: "fast",
+        easing: "easeOutExpo",
+        mobileHA: false,
+        complete(el) {
+            if (document.body.scrollTop == 0) {
+                scroll(0,1)
+                scroll(0,0)
+            }
+        }
+    });
     mk.hideMenuItems();
     // if (routerQueue[routerQueue.length - 1] == to.path + '=>' + from.path) {
     //     store.commit('ISBACK', !store.state.isback);

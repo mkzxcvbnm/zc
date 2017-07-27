@@ -32,20 +32,29 @@ Vue.component('mktransition', {
             this.SETTRANSITIONNAME('translateX');
         },
         afterEnter: function () {
-            if (document.body.scrollTop == 0) {
-                //解决上一页面transition未完成 进入下一页面出现遮盖物的BUG
-                scroll(0,1)
-                scroll(0,0)
-            }
-            if (document.body.scrollTop == this.scroll) {
-                //解决ios scrollTop有值但页面并没有滚动到位的BUG
-                scroll(0, this.scroll)
-            }
-            if (this.back) {
+            // if (document.body.scrollTop == 0) {
+            //     //解决上一页面transition未完成 进入下一页面出现遮盖物的BUG
+            //     scroll(0,1)
+            //     scroll(0,0)
+            // }
+            // if (document.body.scrollTop == this.scroll) {
+            //     //解决ios scrollTop有值但页面并没有滚动到位的BUG
+            //     scroll(0, this.scroll)
+            // }
+            // if (this.back) {
+            //     //滚动到上一个页面的位置
+            //     scroll(0, this.scroll)
+            // }
+
+            if (this.back && document.body.scrollTop == 0) {
                 //滚动到上一个页面的位置
-                scroll(0, this.scroll)
+                Velocity(document.body, 'scroll', {
+                    offset: this.scroll,
+                    duration: "fast",
+                    easing: "easeOutExpo",
+                    mobileHA: false
+                });
             }
-            
         },
     }
 })
