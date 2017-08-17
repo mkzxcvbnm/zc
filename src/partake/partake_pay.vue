@@ -78,6 +78,7 @@
             })
             //获取快捷支付金额
             mk.http('/name/Config/cname/paymoney',{
+                id: this.$route.params.pid
             },(response) => {
                 this.$set(this,'paymoney', response.data)
             })

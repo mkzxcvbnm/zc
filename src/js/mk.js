@@ -14,7 +14,7 @@ module.exports = {
         return this;
     },
     wx(){
-        resource.Http('/name/Wxsdk',{
+        this.http('/name/Wxsdk',{
             url: window.location.href.replace(window.location.protocol + '//', '')
         },(response) => {
             wx.config({
@@ -101,7 +101,7 @@ module.exports = {
         return this;
     },
     get(t, type){
-        resource.Http('/name/' + type,{
+        this.http('/name/' + type,{
         },(response) => {
             switch (type) {
                 case 'Userinfo':

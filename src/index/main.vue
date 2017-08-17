@@ -26,7 +26,7 @@
                 'SCROLL'
             ]),
         },
-        created(){
+        activated(){
             document.title = '中国青商联盟';
             //获取分享参数
             mk.http('/name/Config/cname/share',{

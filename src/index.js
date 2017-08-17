@@ -69,7 +69,7 @@ const router = new VueRouter({
                 },
                 {
                     name: 'partake_pay',
-                    path: '/partake_pay/:id',
+                    path: '/partake_pay/:id/:pid',
                     component: resolve => {
                         require(['./partake/partake_pay.vue'], resolve);
                     }

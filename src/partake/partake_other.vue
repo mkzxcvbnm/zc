@@ -77,7 +77,6 @@
         },
         created(){
             document.title = this.data.title;
-            console.log(this.data);
             mk.showMenuItems({
                 title: this.data.title,
                 desc: this.data.userinfo.nickname + '发起的活动邀请您来支持',
@@ -91,7 +90,7 @@
             ]),
             open_pay(){
                 this.SETTRANSITIONNAME('translateY')
-                this.$router.push({name: 'partake_pay', params: { id: this.data.id }})
+                this.$router.push({name: 'partake_pay', params: { id: this.data.id, pid: this.data.pid }})
             }
             // closepay(){
             //     this.partake_pay_op = false

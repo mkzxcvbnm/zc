@@ -7,7 +7,7 @@
                 <p class="ellipsis">{{data.describe}}</p>
             </div>
             <div class="project_money" v-if="data.money">
-                梦想基金{{data.money}}
+                {{data.id!=14?'梦想':'慈善'}}基金{{data.money}}
             </div>
         </div>
         <project-content-view :pid="data.id" v-if="data.id" :prefs="$refs"></project-content-view>

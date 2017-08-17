@@ -140,7 +140,7 @@ module.exports = {
             filename: 'index.html',
             template: path.resolve(SRC_PATH, 'index.html'),//Webpack需要模板的路径
             inject: true,//当传递true或'body'所有javascript资源将放置在body元素的底部。'head'将脚本放置在head元素中
-            favicon: path.resolve(SRC_PATH, 'favicon.ico'),//将给定图标路径输出HTML
+            //favicon: path.resolve(SRC_PATH, 'favicon.ico'),//将给定图标路径输出HTML
             // minify: {
             //     removeComments: true,//删除HTML注释
             //     collapseWhitespace: true//折叠文档树中文本节点间的空白
